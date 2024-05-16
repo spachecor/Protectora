@@ -22,7 +22,7 @@ animal varchar(10),
 cambioEstado datetime,
 estado varchar(25),
 constraint estadoAnimal_multiple_pk primary key(animal, cambioEstado),
-constraint estadoAnimal_animal_fk foreign key(animal) references animal(id)
+constraint estadoAnimal_animal_fk foreign key(animal) references animal(id) on delete cascade on update cascade
 );
 
 create table usuario(
@@ -45,8 +45,8 @@ id varchar(10),
 animal varchar(10),
 adoptante varchar(10),
 constraint solicitudAdopcion_id_pk primary key(id),
-constraint solicitudAdopcion_animal_fk foreign key(animal) references animal(id),
-constraint solicitudAdopcion_adoptante_fk foreign key(adoptante) references usuario(id)
+constraint solicitudAdopcion_animal_fk foreign key(animal) references animal(id) on delete cascade on update cascade,
+constraint solicitudAdopcion_adoptante_fk foreign key(adoptante) references usuario(id) on delete cascade on update cascade
 );
 
 create table estadoAdopcion (
@@ -54,6 +54,6 @@ adopcion varchar(10),
 cambioEstado datetime,
 estado varchar(25),
 constraint estadoAdopcion_multiple_pk primary key(adopcion, cambioEstado),
-constraint estadoAnimal_adopcion_fk foreign key(adopcion) references solicitudAdopcion(id)
+constraint estadoAnimal_adopcion_fk foreign key(adopcion) references solicitudAdopcion(id) on delete cascade on update cascade
 );
 
