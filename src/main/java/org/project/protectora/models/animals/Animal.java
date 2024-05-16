@@ -24,7 +24,7 @@ public abstract class Animal extends Entidad{
     private final Color color;
     private final Sexo sexo;
     private final LocalDate fechaNacimiento;
-    private final LocalDate fechaEntradaProtectora;
+    private LocalDate fechaEntradaProtectora;
     private Boolean castrado;
     private Long chip;
     private ArrayList<EstadoAnimal> estados;
@@ -161,6 +161,10 @@ public abstract class Animal extends Entidad{
 
     public LocalDate getFechaEntradaProtectora() {
         return fechaEntradaProtectora;
+    }
+
+    public void setFechaEntradaProtectora(LocalDate fechaEntradaProtectora) {
+        this.fechaEntradaProtectora = fechaEntradaProtectora;
     }
 
     /**

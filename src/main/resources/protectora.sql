@@ -57,3 +57,7 @@ constraint estadoAdopcion_multiple_pk primary key(adopcion, cambioEstado),
 constraint estadoAnimal_adopcion_fk foreign key(adopcion) references solicitudAdopcion(id) on delete cascade on update cascade
 );
 
+set sql_safe_updates = 0;
+delete from animal;
+
+select * from animal;

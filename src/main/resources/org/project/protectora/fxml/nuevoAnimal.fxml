@@ -63,7 +63,7 @@
                            <font>
                               <Font name="Comic Sans MS" size="13.0" />
                            </font></Label>
-                        <DatePicker promptText="mm/dd/yyyy" />
+                        <DatePicker fx:id="fechaNacimiento" promptText="mm/dd/yyyy" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
@@ -72,7 +72,7 @@
                            <font>
                               <Font name="Comic Sans MS" size="13.0" />
                            </font></Label>
-                        <DatePicker promptText="mm/dd/yyyy" />
+                        <DatePicker fx:id="fechaEntrada" promptText="mm/dd/yyyy" />
                      </children>
                   </VBox>
                </children>
@@ -174,6 +174,14 @@
                <font>
                   <Font name="Comic Sans MS" size="13.0" />
                </font></Button>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0">
+         <children>
+            <Label fx:id="mensajeErrorEnviar">
+               <font>
+                  <Font name="Comic Sans MS" size="13.0" />
+               </font></Label>
          </children>
       </HBox>
    </children>

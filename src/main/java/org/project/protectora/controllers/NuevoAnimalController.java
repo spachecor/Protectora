@@ -1,28 +1,29 @@
 package org.project.protectora.controllers;
 
-import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
-import javafx.stage.Window;
 import org.project.protectora.MainScreen;
+import org.project.protectora.models.animals.Animal;
 import org.project.protectora.models.animals.Gato;
 import org.project.protectora.models.animals.Otro;
 import org.project.protectora.models.animals.Perro;
 import org.project.protectora.properties.*;
+import org.project.protectora.servicios.bbdd.ConexionBBDD;
 
-import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -34,7 +35,9 @@ public class NuevoAnimalController implements Initializable {
     @FXML
     private ChoiceBox<String> colores, sexos, castrado, chip, tipos, razas, tamanios;
     @FXML
-    private Label mensajeExaminar;
+    private Label mensajeExaminar, mensajeErrorEnviar;
+    @FXML
+    private DatePicker fechaNacimiento, fechaEntrada;
 
     private String[] colorArray = {Color.MARRON_OSCURO.getColor().replace("-", " "), Color.MARRON_CLARO.getColor().replace("-", " "), Color.BLANCO.getColor(),
     Color.NEGRO.getColor(), Color.BICOLOR.getColor(), Color.TRICOLOR.getColor(), Color.NARANJA.getColor(), Color.AZUL.getColor()};
@@ -72,12 +75,6 @@ public class NuevoAnimalController implements Initializable {
                 System.out.println("Imposible cargar");
             }
         });
-        //configuramos lo que ocurre al enviar el formulario
-        enviar.setOnAction(e -> {});
-        //configuramos la limpieza del formulario
-        limpiar.setOnAction(e -> {
-            nombreAnimal.setText("");
-        });
         //agregamos las posibilidades a los choicebox
         colores.getItems().addAll(colorArray);
         sexos.getItems().addAll(sexosArray);
@@ -91,13 +88,15 @@ public class NuevoAnimalController implements Initializable {
 
         //damos funcion al boton examinar, que toma una imagen que introduce el usuario y la guarda
         examinar.setOnAction(e -> {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image files", "*.jpg"));
-            File imagenAGuardar = fileChooser.showSaveDialog(MainScreen.stage);
-            File ubiImagenGuardada = new File(System.getProperty("user.dir")+"/src/main/resources/org/project/protectora/img/animal/img.jpg");
-            if(imagenAGuardar != null){
+            File imagen = obtenerImagen();//todo retomar la forma de agregar la imagen al animal
+            //si la imagen es distinta de null, se procede
+            if(imagen != null){
                 try{
-                    ImageIO.write(SwingFXUtils.fromFXImage(new Image(imagenAGuardar.toURI().toString()), null), "jpg", ubiImagenGuardada);
+                    Path sourcePath = imagen.toPath();
+                    Path targetPath = Paths.get(System.getProperty("user.dir")+"/src/main/resources/org/project/protectora/img/animal", imagen.getName());
+
+                    Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
+                    mensajeExaminar.setText("Añadido: "+imagen.getName());
                 }catch(IOException ex){
                     System.out.println("Imposible guardar");
                     ex.printStackTrace();
@@ -105,6 +104,21 @@ public class NuevoAnimalController implements Initializable {
             }
         });
 
+        //configuramos lo que ocurre al enviar el formulario
+        enviar.setOnAction(e -> {
+            try{
+                subirAnimalBBDD();
+                clearPage();
+            }catch (Exception ex){
+                ex.getMessage();
+                ex.printStackTrace();
+                mensajeErrorEnviar.setText(ex.getMessage());
+            }
+        });
+        //configuramos la limpieza del formulario
+        limpiar.setOnAction(e -> {
+            clearPage();
+        });
     }
     /**
      * Método que selecciona si está o no deshabilitada la opción de introducir un chip según la opción que seleccionemos
@@ -142,5 +156,76 @@ public class NuevoAnimalController implements Initializable {
             razas.setDisable(true);
             tamanios.setDisable(true);
         }
+    }
+    private void subirAnimalBBDD(){
+        ArrayList<Animal> animals = new ArrayList<>();
+        //primero tomamos los valores de los input
+        String nombreAnimalText = nombreAnimal.getText(), colorText = colores.getValue(),
+                sexoText = sexos.getValue(), castradoText = castrado.getValue(), chipText = numeroChip.getText(),
+                razaText = razas.getValue(), tamanioText = tamanios.getValue();
+        LocalDate fechaNacimientoForm = fechaNacimiento.getValue(), fechaEntradaForm = fechaEntrada.getValue();
+        //tenemos en cuenta las condiciones que fuerzan a que no podamos introducir contenido en los campos
+        if(Objects.equals(chip.getValue(), siNoArray[1]))chipText=null;
+        if(Objects.equals(tipos.getValue(), tiposArray[2])){
+            razaText=null;
+            tamanioText=null;
+        }
+        //nos aseguramos de estén rellenos
+        if(nombreAnimalText.isEmpty() || colorText.isEmpty() || sexoText.isEmpty() || castradoText.isEmpty()
+                || Objects.equals(chipText, "") || Objects.equals(razaText, "") || Objects.equals(tamanioText, "")
+                || tipos.getValue().isEmpty()){
+            throw new RuntimeException("No puede haber campos vacíos");
+        }
+        if (Objects.equals(tipos.getValue(), tiposArray[0])) {
+            Gato gato = new Gato(nombreAnimalText, Color.dictionary(colorText),
+                    Sexo.dictionary(sexoText), fechaNacimientoForm, fechaEntradaForm,
+                    Boolean.parseBoolean(castradoText), (chipText==null)?null:Long.parseLong(chipText),
+                    (razaText==null)?null:RazaGato.dictionary(razaText),
+                    (tamanioText==null)?null:Tamanio.dictionary(tamanioText));
+            animals.add(gato);
+        } else if (Objects.equals(tipos.getValue(), tiposArray[1])) {
+            Perro perro = new Perro(nombreAnimalText, Color.dictionary(colorText),
+                    Sexo.dictionary(sexoText), fechaNacimientoForm, fechaEntradaForm,
+                    Boolean.parseBoolean(castradoText), (chipText==null)?null:Long.parseLong(chipText),
+                    (razaText==null)?null:RazaPerro.dictionary(razaText),
+                    (tamanioText==null)?null:Tamanio.dictionary(tamanioText));
+            animals.add(perro);
+        }else if (Objects.equals(tipos.getValue(), tiposArray[2])) {
+            Otro otro = new Otro(nombreAnimalText, Color.dictionary(colorText),
+                    Sexo.dictionary(sexoText), fechaNacimientoForm, fechaEntradaForm,
+                    Boolean.parseBoolean(castradoText), (chipText==null)?null:Long.parseLong(chipText));
+            animals.add(otro);
+        }
+        //subimos el animal a la bbdd
+        try{
+            ConexionBBDD conexionBBDD = new ConexionBBDD();
+            conexionBBDD.insertarAnimal(animals.getFirst());
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+    private void clearPage(){
+        nombreAnimal.setText("");
+        colores.setValue("");
+        sexos.setValue("");
+        fechaNacimiento.setValue(null);
+        fechaEntrada.setValue(null);
+        castrado.setValue("");
+        chip.setValue("");
+        numeroChip.setText("");
+        tipos.setValue("");
+        razas.setValue("");
+        tamanios.setValue("");
+        mensajeExaminar.setText("Ningún archivo adjuntado");
+    }
+    private File obtenerImagen(){
+        //usamos objeto filechooser para obtener el archivo
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar una imagen");
+        //aplicamos filtros para que solo sea jpg o png
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image files", "*.jpg", "*png"));
+        //mostramos el diálogo para que el usuario escoja la img
+        File imagen = fileChooser.showOpenDialog(MainScreen.stage);
+        return imagen;
     }
 }

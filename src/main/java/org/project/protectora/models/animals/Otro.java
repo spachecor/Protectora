@@ -43,6 +43,21 @@ public class Otro extends Animal {
     /**
      * Constructor usado para la creación de un gato ya creado anteriormente (p.ej restauracion de entidades creadas en
      * otras sesiones
+     * @param nombre el nombre del animal
+     * @param color el color del animal
+     * @param sexo el sexo del animal
+     * @param fechaNacimiento la fecha de nacimiento del animal en meses(podría ser aproximada)
+     * @param fechaEntradaProtectora la fecha en la que el animal entró en la protectora
+     * @param castrado si el animal está o no castrado
+     * @param chip el nº de chip del animal de 15 cifras
+     */
+    public Otro(String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, LocalDate fechaEntradaProtectora, Boolean castrado, Long chip) {
+        super(nombre, color, sexo, fechaNacimiento, castrado, chip);
+        super.setFechaEntradaProtectora(fechaEntradaProtectora);
+    }
+    /**
+     * Constructor usado para la creación de un gato ya creado anteriormente (p.ej restauracion de entidades creadas en
+     * otras sesiones
      * @param id el id del animal
      * @param nombre el nombre del animal
      * @param color el color del animal
