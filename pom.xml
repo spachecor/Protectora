@@ -27,7 +27,7 @@
         </dependency>
         <dependency>
             <groupId>org.project.protectora</groupId>
-            <artifactId>Protectora-proyecto</artifactId>
+            <artifactId>Protectora</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
