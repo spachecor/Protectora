@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #F3EED9;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.protectora.controllers.BuscadorController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="850.0">
+         <children>
+            <Label text="Velma" textFill="#57423f">
+               <font>
+                  <Font name="Comic Sans MS" size="40.0" />
+               </font>
+            </Label>
+            <Button fx:id="inicio" mnemonicParsing="false" prefHeight="70.0" prefWidth="75.0" style="-fx-background-color: #E19992;">
+               <graphic>
+                  <ImageView fitHeight="45.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/salir.png" />
+                     </image></ImageView>
+               </graphic></Button>
+         </children></HBox>
+      <HBox prefHeight="620.0" prefWidth="200.0">
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="356.0" spacing="50.0">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="75.0" prefWidth="100.0" spacing="20.0">
+                     <children>
+                        <Label text="Búsqueda por ID" textFill="#57423f">
+                           <font>
+                              <Font name="Comic Sans MS" size="13.0" />
+                           </font>
+                        </Label>
+                        <HBox alignment="TOP_CENTER" prefHeight="25.0" prefWidth="200.0" spacing="50.0">
+                           <children>
+                              <TextField fx:id="idEntidad" promptText="ID" />
+                              <Button mnemonicParsing="false" style="-fx-background-color: #E19992;" text="Buscar" textFill="WHITE">
+                                 <font>
+                                    <Font name="Comic Sans MS" size="13.0" />
+                                 </font></Button>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="150.0" prefWidth="100.0" spacing="20.0">
+                     <children>
+                        <Label text="Búsqueda por tipo" textFill="#57423f">
+                           <font>
+                              <Font name="Comic Sans MS" size="13.0" />
+                           </font>
+                        </Label>
+                        <HBox alignment="TOP_CENTER" prefHeight="25.0" prefWidth="200.0" spacing="50.0">
+                           <children>
+                              <ChoiceBox fx:id="tipos" prefWidth="150.0" style="-fx-background-color: #F3EED9; -fx-border-color: #E19992;" />
+                              <ChoiceBox fx:id="campos" prefWidth="150.0" style="-fx-background-color: #F3EED9; -fx-border-color: #E19992;">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin></ChoiceBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </VBox.margin></HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" spacing="100.0">
+                           <children>
+                              <TextField fx:id="textFieldBusqueda" />
+                              <Button mnemonicParsing="false" style="-fx-background-color: #E19992;" text="Buscar" textFill="WHITE">
+                                 <font>
+                                    <Font name="Comic Sans MS" size="13.0" />
+                                 </font></Button>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="limpiarCampos" mnemonicParsing="false" style="-fx-background-color: #E19992;" text="Limpiar todos los campos" textFill="WHITE">
+                           <font>
+                              <Font name="Comic Sans MS" size="13.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets top="50.0" />
+               </padding></VBox>
+            <ScrollPane prefHeight="200.0" prefWidth="724.0" />
+         </children></HBox>
+   </children>
+</VBox>

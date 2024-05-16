@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE animales [
+        <!ELEMENT animales (gato*, perro*)>
+        <!ELEMENT gato (nombre, color, sexo, fechaNacimiento, raza, tamanio, castrado, chip)>
+        <!ELEMENT perro (nombre, color, sexo, fechaNacimiento, raza, tamanio, castrado, chip)>
+        <!ELEMENT nombre (#PCDATA)>
+        <!ELEMENT color (#PCDATA)>
+        <!ELEMENT sexo (#PCDATA)>
+        <!ELEMENT fechaNacimiento (#PCDATA)>
+        <!ELEMENT raza (#PCDATA)>
+        <!ELEMENT tamanio (#PCDATA)>
+        <!ELEMENT castrado (#PCDATA)>
+        <!ELEMENT chip (#PCDATA)>
+        ]>
+<animales>
+    <gato>
+        <nombre>Pepi</nombre>
+        <color>marrón oscuro</color>
+        <sexo>hembra</sexo>
+        <fechaNacimiento>01/01/2019</fechaNacimiento>
+        <raza>Persa</raza>
+        <tamanio>grande</tamanio>
+        <castrado>true</castrado>
+        <chip></chip>
+    </gato>
+    <gato>
+        <nombre>Kira</nombre>
+        <color>negro</color>
+        <sexo>hembra</sexo>
+        <fechaNacimiento>27/12/2015</fechaNacimiento>
+        <raza>Maine Coon</raza>
+        <tamanio>grande</tamanio>
+        <castrado>false</castrado>
+        <chip></chip>
+    </gato>
+    <gato>
+        <nombre>Burbujas</nombre>
+        <color>tricolor</color>
+        <sexo>macho</sexo>
+        <fechaNacimiento>25/03/2023</fechaNacimiento>
+        <raza>Común europeo</raza>
+        <tamanio>pequeño</tamanio>
+        <castrado>true</castrado>
+        <chip>437332462641930</chip>
+    </gato>
+    <perro>
+        <nombre>Francisca</nombre>
+        <color>blanco</color>
+        <sexo>hembra</sexo>
+        <fechaNacimiento>15/02/2021</fechaNacimiento>
+        <raza>Chihuahua</raza>
+        <tamanio>pequeño</tamanio>
+        <castrado>true</castrado>
+        <chip>276876916571587</chip>
+    </perro>
+    <perro>
+        <nombre>Ratón</nombre>
+        <color>bicolor</color>
+        <sexo>macho</sexo>
+        <fechaNacimiento>03/04/2024</fechaNacimiento>
+        <raza>San Bernardo</raza>
+        <tamanio>gigante</tamanio>
+        <castrado>false</castrado>
+        <chip></chip>
+    </perro>
+    <perro>
+        <nombre>Tigri</nombre>
+        <color>naranja</color>
+        <sexo>macho</sexo>
+        <fechaNacimiento>20/03/2024</fechaNacimiento>
+        <raza>Dálmata</raza>
+        <tamanio>mediano</tamanio>
+        <castrado>false</castrado>
+        <chip></chip>
+    </perro>
+</animales>

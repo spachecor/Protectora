@@ -1,0 +1,245 @@
+@startuml
+
+Base <|-- Animal
+Base <|- Usuario
+Animal <|-- Gato
+Animal <|- Perro
+
+
+
+
+package propiedades{
+    enum Color{
+        +{static}MARRON_OSCURO
+        +{static}MARRON_CLARO
+        +{static}BLANCO
+        +{static}NEGRO
+        +{static}BICOLOR
+        +{static}TRICOLOR
+        +{static}NARANJA
+        +{static}AZUL
+        -{static}COLOR:String
+
+        +Color(color:String):void
+        +getCOLOR():String
+    }
+    enum EstadoAdopcion{
+        +{static}DENEGADA
+        +{static}EN_ESPERA
+        +{static}APROBADA
+        -{static}ESTADO:String
+        -{static}CAMBIO_ESTADO:LocalDateTime
+
+        +EstadoAdopcion(estado:String, cambioEstado:LocalDateTime):void
+        +getESTADO():String
+        +getCAMBIO_ESTADO():LocalDateTime
+    }
+    enum EstadoAnimal{
+        +{static}ADOPTADO
+        +{static}ADOPTABLE
+        +{static}INDOCUMENTADO
+        +{static}FALLECIDO
+        -{static}ESTADO:String
+        -{static}CAMBIO_ESTADO:LocalDateTime
+
+        +EstadoAnimal(estado:String, cambioEstado:LocalDateTime):void
+        +getESTADO():String
+        +getCAMBIOESTADO():LocalDateTime
+
+    }
+    enum RazaGato{
+        +{static}PERSA
+        +{static}ESFINGE
+        +{static}SIAMES
+        +{static}MAINE_COON
+        +{static}BENGALI
+        +{static}RAGDOLL
+        +{static}SIBERIANO
+        +{static}ANGORA
+        +{static}CORNISH_REX
+        +{static}COMUN_EUROPEO
+        +{static}ORIENTAL
+        +{static}EXOTICO
+        +{static}SOMALI
+        +{static}CURL_AMERICANO
+        +{static}AZUL_RUSO
+        +{static}ABISINIO
+        +{static}CARTUJO
+        +{static}HIMALAYO
+        +{static}BOMBAY
+        +{static}BOSQUE_NORUEGA
+        -{static}RAZA:String
+
+        +RazaGato(raza:String):void
+        +getRAZA():String
+    }
+    enum RazaPerro{
+        +{static}CHIHUAHUA
+        +{static}POMERANIA
+        +{static}BICHON_MALTES
+        +{static}CANICHE
+        +{static}BULLDOG_FRANCES
+        +{static}YORKSHIRE
+        +{static}BEAGLE
+        +{static}BLOXER
+        +{static}JACK_RUSSELL
+        +{static}BORDER_COLLIE
+        +{static}BULL_TERRIER
+        +{static}CARLINO
+        +{static}MESTIZO
+        +{static}GALGO
+        +{static}HUSKY_SIBERIANO
+        +{static}SHIBA_INU
+        +{static}DALMATA
+        +{static}SHAR_PEI
+        +{static}LABRADOR
+        +{static}SAN_BERNARDO
+        +{static}ROTTWEILER
+        +{static}BOBTAIL
+        +{static}DOGO_ARGENTINO
+        +{static}GRAN_DANES
+        -{static}RAZA:String
+
+        +RazaPerro(raza:String):void
+        +getRAZA():String
+    }
+    enum Sexo{
+        +{static}MACHO
+        +{static}HEMBRA
+        -{static}SEXO:String
+
+        +Sexo(sexo:String):void
+        +getSEXO():String
+    }
+    enum Tamanio{
+        +{static}PEQUEMIO
+        +{static}MEDIANO
+        +{static}GRANDE
+        +{static}GIGANTE
+        -{static}TAMANIO:String
+
+        +Tamanio(tamanio:String):Void
+        +getTAMANIO():String
+    }
+}
+package entidades{
+    package "animales"{
+        class Animal{
+            -{static}contador:Integer
+            -nombre:String
+            -tiempoEnProtectora:Integer
+            -color:Color
+            -sexo:Sexo
+            -estado:EstadoAnimal
+            -fechaNacimiento:LocalDate
+            -fechaEntradaProtectora:LocalDate
+            -castrado:Boolean
+            -chip:Long
+
+            #Animal(nombre:String, color:Color, sexo:Sexo):void
+            #Animal(nombre:String, color:Color, sexo:Sexo, fechaNacimiento:LocalDate):void
+            #Animal(nombre:String, color:Color, sexo:Sexo, castrado:Boolean):void
+            #Animal(nombre:String, color:Color, sexo:Sexo, fechaNacimiento:LocalDate, castrado:Boolean):void
+            #Animal(nombre:String, color:Color, sexo:Sexo, fechaNacimiento:LocalDate, castrado:Boolean, chip:Long):void
+            +{static}getContador():Integer
+            +getNombre():String
+            -setNombre(nombre:String):void
+            +getColor():Color
+            -setColor(color:Color):void
+            +getSexo():Sexo
+            -setSexo(sexo:Sexo):void
+            +getFechaNacimiento():LocalDate
+            -setFechaNacimiento(fechaNacimiento:LocalDate):void
+            +getEdad():Integer
+            +getFechaEntradaProtectora():LocalDate
+            +getTiempoEnProtectora():Integer
+            +getCastrado():Boolean
+            -setCastrado(castrado:Boolean):void
+            +getChip():Long
+            -setChip(chip:Long):void
+        }
+        class Gato{
+            -raza:RazaGato
+            -tamanio:Tamanio
+
+            +Gato(nombre:String, color:Color, sexo:Sexo, raza:RazaGato, tamanio:Tamanio):void
+            +Gato(nombre:String, color:Color, sexo:Sexo, fechaNacimiento:LocalDate, raza:RazaGato, tamanio:Tamanio):void
+            +Gato(nombre:String, color:Color, sexo:Sexo, castrado:Boolean, raza:RazaGato, tamanio:Tamanio):void
+            +Gato(nombre:String, color:Color, sexo:Sexo, fechaNacimiento:LocalDate, castrado:Boolean, raza:RazaGato, tamanio:Tamanio):void
+            +Gato(nombre:String, color:Color, sexo:Sexo, fechaNacimiento:LocalDate, castrado:Boolean, chip:Long, raza:RazaGato, tamanio:Tamanio):void
+            +getRaza():RazaGato
+            -setRaza(raza:RazaGato):void
+            +getTamanio():Tamanio
+            -setTamanio(tamanio:Tamanio):void
+        }
+        class Perro{
+            -raza:RazaPerro
+            -tamanio:Tamanio
+
+            +Perro(nombre:String, color:Color, sexo:Sexo, raza:RazaPerro, tamanio:Tamanio):void
+            +Perro(nombre:String, color:Color, sexo:Sexo, fechaNacimiento:LocalDate, raza:RazaPerro, tamanio:Tamanio):void
+            +Perro(nombre:String, color:Color, sexo:Sexo, castrado:Boolean, raza:RazaPerro, tamanio:Tamanio):void
+            +Perro(nombre:String, color:Color, sexo:Sexo, fechaNacimiento:LocalDate, castrado:Boolean, raza:RazaPerro, tamanio:Tamanio):void
+            +Perro(nombre:String, color:Color, sexo:Sexo, fechaNacimiento:LocalDate, castrado:Boolean, chip:Long, raza:RazaPerro, tamanio:Tamanio):void
+            +getRaza():RazaPerro
+            -setRaza(raza:RazaPerro):void
+            +getTamanio():Tamanio
+            -setTamanio(tamanio:Tamanio):void
+        }
+    }
+    package personas{
+        class Usuario{
+            -{static}contador:Integer
+            -username:String
+            -dni:String
+            -ocupacion:String
+            -email:String
+            -direccion:String
+            -direccionFacturacion:String
+            -localidad:String
+            -provincia:String
+            -telefono:Integer
+            -codigoPostal:Integer
+            -fechaNacimiento:LocalDate
+
+            +Usuario(username:String, email:String, telefono:Integer, fechaNacimiento:LocalDate):void
+            +Usuario(username:String, dni:String, ocupacion:String, email:String, direccion:String, direccionFacturacion:String, localidad:String, provincia:String, telefono:Integer, codigoPostal:Integer, fechaNacimiento:LocalDate):void
+            +getContador():Integer
+            +getEdad():Integer
+            -setContador(contador:Integer):void
+            +getUsername():String
+            -setUsername(username:String):void
+            +getDni():String
+            -setDni(dni:String):void
+            +getOcupacion():String
+            -setOcupacion(ocupacion:String):void
+            +getEmail():String
+            -setEmail(email:String):void
+            +getDireccion():String
+            -setDireccion(direccion:String):void
+            +getDireccionFacturacion():String
+            -setDireccionFacturacion(direccionFacturacion:String):void
+            +getLocalidad():String
+            -setLocalidad(localidad:String):void
+            +getProvincia():String
+            -setProvincia(provincia:String):void
+            +getTelefono():Integer
+            -setTelefono(telefono:Integer):void
+            +getCodigoPostal():Integer
+            -setCodigoPostal(codigoPostal:Integer):void
+            +getFechaNacimiento():LocalDate
+            -setFechaNacimiento(fechaNacimiento):void
+
+        }
+    }
+    class Base{
+        -id:String
+
+        #Base(nombreClase:String, numeroId:Integer):void
+        -setId(nombreClase:String, numeroId:Integer):void
+        +getId():String
+
+    }
+}
+
+@enduml

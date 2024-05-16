@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" prefHeight="720.0" prefWidth="1080.0" spacing="20.0" style="-fx-background-color: #F3EED9;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.protectora.controllers.MainController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+   <children>
+      <HBox fx:id="cabecera" alignment="CENTER" prefHeight="200.0" prefWidth="1040.0" spacing="800.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" text="Velma" textAlignment="CENTER" textFill="#57423f">
+               <font>
+                  <Font name="Comic Sans MS" size="60.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <ImageView fx:id="icono" fitHeight="120.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/icono.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <HBox fx:id="cuerpoSuperior" alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="1040.0" spacing="30.0">
+         <children>
+            <Button fx:id="buscador" mnemonicParsing="false" prefHeight="75.0" style="-fx-background-color: #E19992;" text="BUSCADOR" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Comic Sans MS Bold" size="20.0" />
+               </font></Button>
+            <Button fx:id="solicitarAdopcion" mnemonicParsing="false" prefHeight="75.0" style="-fx-background-color: #E19992;" text="SOLICITAR&#10;ADOPCIÓN" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Comic Sans MS Bold" size="20.0" />
+               </font></Button>
+         </children></HBox>
+      <HBox fx:id="cuerpoInferior" alignment="TOP_CENTER" prefHeight="270.0" prefWidth="1040.0" spacing="30.0">
+         <children>
+            <Button fx:id="nuevoAnimal" mnemonicParsing="false" prefHeight="75.0" style="-fx-background-color: #E19992;" text="NUEVO&#10;ANIMAL" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Comic Sans MS Bold" size="20.0" />
+               </font></Button>
+            <Button fx:id="nuevoUsuario" mnemonicParsing="false" prefHeight="75.0" style="-fx-background-color: #E19992;" text="NUEVO&#10;USUARIO" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Comic Sans MS Bold" size="20.0" />
+               </font></Button>
+         </children></HBox>
+   </children>
+    
+</VBox>

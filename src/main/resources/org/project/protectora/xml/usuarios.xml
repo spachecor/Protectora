@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE usuarios [
+        <!ELEMENT usuarios (usuario+)>
+        <!ELEMENT usuario (username, email, telefono, nombre, fechaNacimiento, dni, ocupacion, direccion, direccionFacturacion, localidad, provincia, codigoPostal)>
+        <!ELEMENT username (#PCDATA)>
+        <!ELEMENT email (#PCDATA)>
+        <!ELEMENT telefono (#PCDATA)>
+        <!ELEMENT nombre (#PCDATA)>
+        <!ELEMENT fechaNacimiento (#PCDATA)>
+        <!ELEMENT dni (#PCDATA)>
+        <!ELEMENT ocupacion (#PCDATA)>
+        <!ELEMENT direccion (#PCDATA)>
+        <!ELEMENT direccionFacturacion (#PCDATA)>
+        <!ELEMENT localidad (#PCDATA)>
+        <!ELEMENT provincia (#PCDATA)>
+        <!ELEMENT codigoPostal (#PCDATA)>
+        ]>
+<usuarios>
+    <usuario>
+        <username>cabrabutdisorientate</username>
+        <email>noyusseipeppoi-8507@gmail.com</email>
+        <telefono>666555444</telefono>
+        <nombre>Cristian Zafra Moreno</nombre>
+        <fechaNacimiento>02/05/1999</fechaNacimiento>
+        <dni>51949366W</dni>
+        <ocupacion>trabajando</ocupacion>
+        <direccion>Calle José Ramón Jiménez, 32, bloque 2, 2ºG</direccion>
+        <direccionFacturacion>Calle José Ramón Jiménez, 32, bloque 2, 2ºG</direccionFacturacion>
+        <localidad>Granada</localidad>
+        <provincia>Granada</provincia>
+        <codigoPostal>18000</codigoPostal>
+    </usuario>
+    <usuario>
+        <username>apologizeconsidering</username>
+        <email>woveuduprefrau-3668@gmail.com</email>
+        <telefono>987456321</telefono>
+        <nombre>Ana María Zambrano Rojo</nombre>
+        <fechaNacimiento>30/04/1968</fechaNacimiento>
+        <dni></dni>
+        <ocupacion></ocupacion>
+        <direccion></direccion>
+        <direccionFacturacion></direccionFacturacion>
+        <localidad></localidad>
+        <provincia></provincia>
+        <codigoPostal></codigoPostal>
+    </usuario>
+    <usuario>
+        <username>longinglyunethically</username>
+        <email>braubafahoussoi-2618@gmail.com</email>
+        <telefono>654321987</telefono>
+        <nombre>Jennifer Molero Campozano</nombre>
+        <fechaNacimiento>08/09/1990</fechaNacimiento>
+        <dni>62856689N</dni>
+        <ocupacion>paro</ocupacion>
+        <direccion>Calle de las Encinas, 12</direccion>
+        <direccionFacturacion>Calle de los Romeros, 21</direccionFacturacion>
+        <localidad>Córdoba</localidad>
+        <provincia>Córdoba</provincia>
+        <codigoPostal>14001</codigoPostal>
+    </usuario>
+    <usuario>
+        <username>noxiousretrospective</username>
+        <email>praxeubruffeudi-6719@gmail.com</email>
+        <telefono>639528417</telefono>
+        <nombre>Juan David Fernández Rodríguez</nombre>
+        <fechaNacimiento>20/03/1998</fechaNacimiento>
+        <dni></dni>
+        <ocupacion></ocupacion>
+        <direccion></direccion>
+        <direccionFacturacion></direccionFacturacion>
+        <localidad></localidad>
+        <provincia></provincia>
+        <codigoPostal></codigoPostal>
+    </usuario>
+    <usuario>
+        <username>aproposhomeownership</username>
+        <email>yafeleikeudde-3990@yopmail.com</email>
+        <telefono>693582471</telefono>
+        <nombre>Rogelio Costa Santana</nombre>
+        <fechaNacimiento>15/11/1996</fechaNacimiento>
+        <dni>85239680R</dni>
+        <ocupacion>trabajando</ocupacion>
+        <direccion>Calle Amapola, 26, 1ºD</direccion>
+        <direccionFacturacion>Calle Amapola, 26, 1ºD</direccionFacturacion>
+        <localidad>Sevilla</localidad>
+        <provincia>Sevilla</provincia>
+        <codigoPostal>41015</codigoPostal>
+    </usuario>
+</usuarios>

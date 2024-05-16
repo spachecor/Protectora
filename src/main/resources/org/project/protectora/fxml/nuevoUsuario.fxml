@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: #F3EED9;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.protectora.controllers.NuevoUsuarioController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="850.0">
+         <children>
+            <Label text="Velma" textFill="#57423f">
+               <font>
+                  <Font name="Comic Sans MS" size="40.0" />
+               </font></Label>
+            <Button fx:id="inicio" mnemonicParsing="false" prefHeight="70.0" prefWidth="75.0" style="-fx-background-color: #E19992;">
+               <graphic>
+                  <ImageView fitHeight="45.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/salir.png" />
+                     </image></ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</VBox>
