@@ -30,7 +30,7 @@ public class ConexionBBDD {
             tipo = "Perro";
         }else tipo = "Otro";
         try{
-            String query = "INSERT INTO animal VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO animal VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, animal.getId());
             statement.setString(2, animal.getNombre());
@@ -51,9 +51,54 @@ public class ConexionBBDD {
                 statement.setString(10, null);
                 statement.setString(11, null);
             }
+            statement.setBytes(12, animal.getImg());
+
             statement.executeUpdate();
         }catch (Exception e){
             e.printStackTrace();
+            throw new RuntimeException("Error al insertar el animal");
         }
+    }
+    public int contarAnimales(){
+        int resultado=0;
+        try{
+            String query= "SELECT COUNT(*) FROM animal";
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            while(resultSet.next()){
+                resultado=resultSet.getInt(1);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return resultado;
+    }
+    public int contarUsuarios(){
+        int resultado=0;
+        try{
+            String query= "SELECT COUNT(*) FROM usuario";
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            while(resultSet.next()){
+                resultado=resultSet.getInt(1);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return resultado;
+    }
+    public int contarsolicitudes(){
+        int resultado=0;
+        try{
+            String query= "SELECT COUNT(*) FROM solicitudAdopcion";
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            while(resultSet.next()){
+                resultado=resultSet.getInt(1);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return resultado;
     }
 }

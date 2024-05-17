@@ -24,8 +24,8 @@ public final class Perro extends Animal{
      * @param raza la raza del animal
      * @param tamanio el tamanio del animal
      */
-    public Perro(String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, RazaPerro raza, Tamanio tamanio){
-        super(nombre, color, sexo, fechaNacimiento);
+    public Perro(String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, RazaPerro raza, Tamanio tamanio, byte[] img){
+        super(nombre, color, sexo, fechaNacimiento, img);
         this.raza=raza;
         this.tamanio=tamanio;
     }
@@ -39,8 +39,8 @@ public final class Perro extends Animal{
      * @param raza la raza del animal
      * @param tamanio el tamanio del animal
      */
-    public Perro(String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, boolean castrado, RazaPerro raza, Tamanio tamanio){
-        super(nombre, color, sexo, fechaNacimiento, castrado);
+    public Perro(String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, boolean castrado, RazaPerro raza, Tamanio tamanio, byte[] img){
+        super(nombre, color, sexo, fechaNacimiento, castrado, img);
         this.raza=raza;
         this.tamanio=tamanio;
     }
@@ -55,8 +55,8 @@ public final class Perro extends Animal{
      * @param raza la raza del animal
      * @param tamanio el tamanio del animal
      */
-    public Perro(String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, boolean castrado, long chip, RazaPerro raza, Tamanio tamanio){
-        super(nombre, color, sexo, fechaNacimiento, castrado, chip);
+    public Perro(String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, boolean castrado, long chip, RazaPerro raza, Tamanio tamanio, byte[] img){
+        super(nombre, color, sexo, fechaNacimiento, castrado, chip, img);
         this.raza=raza;
         this.tamanio=tamanio;
     }
@@ -73,8 +73,8 @@ public final class Perro extends Animal{
      * @param raza la raza del gato
      * @param tamanio el tamaño del gato
      */
-    public Perro(String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, LocalDate fechaEntradaProtectora, Boolean castrado, Long chip, RazaPerro raza, Tamanio tamanio) {
-        super(nombre, color, sexo, fechaNacimiento, castrado, chip);
+    public Perro(String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, LocalDate fechaEntradaProtectora, Boolean castrado, Long chip, RazaPerro raza, Tamanio tamanio, byte[] img) {
+        super(nombre, color, sexo, fechaNacimiento, castrado, chip, img);
         super.setFechaEntradaProtectora(fechaEntradaProtectora);
         this.raza = raza;
         this.tamanio = tamanio;
@@ -94,8 +94,8 @@ public final class Perro extends Animal{
      * @param raza la raza del perro
      * @param tamanio el tamaño del perro
      */
-    public Perro(String id, String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, LocalDate fechaEntradaProtectora, Boolean castrado, Long chip, ArrayList<EstadoAnimal> estados, RazaPerro raza, Tamanio tamanio) {
-        super(id, nombre, color, sexo, fechaNacimiento, fechaEntradaProtectora, castrado, chip, estados);
+    public Perro(String id, String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, LocalDate fechaEntradaProtectora, Boolean castrado, Long chip, ArrayList<EstadoAnimal> estados, RazaPerro raza, Tamanio tamanio, byte[] img) {
+        super(id, nombre, color, sexo, fechaNacimiento, fechaEntradaProtectora, castrado, chip, estados, img);
         this.raza = raza;
         this.tamanio = tamanio;
     }

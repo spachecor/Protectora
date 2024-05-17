@@ -13,27 +13,19 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
     @FXML
-    private Button buscador, solicitarAdopcion, nuevoAnimal, nuevoUsuario;
+    private Button panel, nuevoAnimal, nuevoUsuario;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        buscador.setOnAction(e -> {
+        panel.setOnAction(e -> {
             try{
-                FXMLLoader fxmlLoader = new FXMLLoader(MainScreen.class.getResource("fxml/buscador.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(MainScreen.class.getResource("fxml/panel.fxml"));
                 MainScreen.stage.setScene(new Scene(fxmlLoader.load()));
-                MainScreen.stage.setTitle("Buscador");
+                MainScreen.stage.setTitle("Panel");
             }catch(IOException ex){
                 System.out.println("Imposible cargar: "+ex.getMessage());
-            }
-        });
-        solicitarAdopcion.setOnAction(e -> {
-            try{
-                FXMLLoader fxmlLoader = new FXMLLoader(MainScreen.class.getResource("fxml/solicitarAdopcion.fxml"));
-                MainScreen.stage.setScene(new Scene(fxmlLoader.load()));
-                MainScreen.stage.setTitle("Solicitar adopción");
-            }catch(IOException ex){
-                System.out.println("Imposible cargar: "+ex.getMessage());
+                ex.printStackTrace();
             }
         });
         nuevoAnimal.setOnAction(e -> {
@@ -46,7 +38,13 @@ public class MainController implements Initializable {
             }
         });
         nuevoUsuario.setOnAction(e -> {
-            System.out.println("se ha pulsado nuevo usuario");
+            try{
+                FXMLLoader fxmlLoader = new FXMLLoader(MainScreen.class.getResource("fxml/nuevoUsuario.fxml"));
+                MainScreen.stage.setScene(new Scene(fxmlLoader.load()));
+                MainScreen.stage.setTitle("Nuevo usuario");
+            }catch(IOException ex){
+                System.out.println("Imposible cargar: "+ex.getMessage());
+            }
         });
 
     }

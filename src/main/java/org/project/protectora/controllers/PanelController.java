@@ -15,18 +15,18 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class BuscadorController implements Initializable {
+public class PanelController implements Initializable {
 
     @FXML
     private Button inicio, limpiarCampos;
     @FXML
-    private ChoiceBox<String> tipos, campos;
+    private ChoiceBox<String> tipoEntidad, campos, tipoModificacion, valorNuevo;
     private String[] tiposArray = {"Animal", "Usuario", "Solicitud de Adopción"};
     private String[] camposAnimalArray = {"Nombre", "Sexo"};
     private String[] camposUsuarioArray = {"Nombre", "Sexo"};
     private String[] camposSolicitudAdopcionArray = {"Nombre del animal", "Nombre del usuario"};
     @FXML
-    private TextField textFieldBusqueda, idEntidad;
+    private TextField textFieldBusqueda, idEntidad, idAnimalTextField, idUsuarioTextField;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -40,25 +40,26 @@ public class BuscadorController implements Initializable {
                 System.out.println("Imposible cargar");
             }
         });
-        //configuramos el choice de los tipos
-        tipos.getItems().addAll(tiposArray);
-        //colocamos el valor de serie
-        tipos.setValue(tiposArray[0]);
+        //configuramos el choice de los tipos y los campos
+        tipoEntidad.getItems().addAll(tiposArray);
         campos.getItems().addAll(camposAnimalArray);
         //ahora colocamos los valores del segundo choice, el de los campos, según el valor el choice tipos
-        tipos.setOnAction(this::setCampos);
+        tipoEntidad.setOnAction(this::setCampos);
         //ahora modificamos el valor del prompt text del textFieldBuscador según la opción que seleccionemos en el choicebox
         //de los campos
         campos.setOnAction(this::setTextBusqueda);
 
-        //asignemos el comportamiento del botón limpiarCampos que limpia todos los campos
+        //asignamos el comportamiento del botón limpiarCampos que limpia todos los campos
         limpiarCampos.setOnAction(e -> {
-            textFieldBusqueda.setText("");
             idEntidad.setText("");
-            tipos.setValue(tiposArray[0]);
+            tipoEntidad.setValue("");
+            campos.setValue("");
+            textFieldBusqueda.setText("");
+            idAnimalTextField.setText("");
+            idUsuarioTextField.setText("");
+            tipoModificacion.setValue("");
+            valorNuevo.setValue("");
         });
-
-
     }
 
     /**
@@ -66,13 +67,13 @@ public class BuscadorController implements Initializable {
      * @param actionEvent El evento que genera cuando cambiamos de opcion en el choicebox
      */
     private void setCampos(ActionEvent actionEvent) {
-        if(Objects.equals(tipos.getValue(), tiposArray[0])){
+        if(Objects.equals(tipoEntidad.getValue(), tiposArray[0])){
             campos.getItems().clear();
             campos.getItems().addAll(camposAnimalArray);
-        }else if(Objects.equals(tipos.getValue(), tiposArray[1])){
+        }else if(Objects.equals(tipoEntidad.getValue(), tiposArray[1])){
             campos.getItems().clear();
             campos.getItems().addAll(camposUsuarioArray);
-        } else if (Objects.equals(tipos.getValue(), tiposArray[2])) {
+        } else if (Objects.equals(tipoEntidad.getValue(), tiposArray[2])) {
             campos.getItems().clear();
             campos.getItems().addAll(camposSolicitudAdopcionArray);
         }

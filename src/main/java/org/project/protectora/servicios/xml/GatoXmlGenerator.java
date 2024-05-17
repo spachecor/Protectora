@@ -24,7 +24,8 @@ public class GatoXmlGenerator extends XmlGenerator{
                         , LocalDate.parse(element.getElementsByTagName("fechaNacimiento").item(0).getTextContent(), dateTimeFormatter)
                         , Boolean.parseBoolean(element.getElementsByTagName("castrado").item(0).getTextContent())
                         , RazaGato.dictionary(element.getElementsByTagName("raza").item(0).getTextContent())
-                        , Tamanio.dictionary(element.getElementsByTagName("tamanio").item(0).getTextContent())));
+                        , Tamanio.dictionary(element.getElementsByTagName("tamanio").item(0).getTextContent())
+                        , new byte[1024]));
             }else {
                 listaPersonalizadaList.add((T)new Gato(element.getElementsByTagName("nombre").item(0).getTextContent()
                         , Color.dictionary(element.getElementsByTagName("color").item(0).getTextContent())
@@ -33,7 +34,8 @@ public class GatoXmlGenerator extends XmlGenerator{
                         , Boolean.parseBoolean(element.getElementsByTagName("castrado").item(0).getTextContent())
                         , Long.parseLong(element.getElementsByTagName("chip").item(0).getTextContent())
                         , RazaGato.dictionary(element.getElementsByTagName("raza").item(0).getTextContent())
-                        , Tamanio.dictionary(element.getElementsByTagName("tamanio").item(0).getTextContent())));
+                        , Tamanio.dictionary(element.getElementsByTagName("tamanio").item(0).getTextContent())
+                        , new byte[1024]));
             }
         }
     }

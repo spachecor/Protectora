@@ -15,7 +15,9 @@ import org.project.protectora.models.animals.Perro;
 import org.project.protectora.properties.*;
 import org.project.protectora.servicios.bbdd.ConexionBBDD;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -38,6 +40,8 @@ public class NuevoAnimalController implements Initializable {
     private Label mensajeExaminar, mensajeErrorEnviar;
     @FXML
     private DatePicker fechaNacimiento, fechaEntrada;
+
+    private static File img=null;
 
     private String[] colorArray = {Color.MARRON_OSCURO.getColor().replace("-", " "), Color.MARRON_CLARO.getColor().replace("-", " "), Color.BLANCO.getColor(),
     Color.NEGRO.getColor(), Color.BICOLOR.getColor(), Color.TRICOLOR.getColor(), Color.NARANJA.getColor(), Color.AZUL.getColor()};
@@ -88,25 +92,14 @@ public class NuevoAnimalController implements Initializable {
 
         //damos funcion al boton examinar, que toma una imagen que introduce el usuario y la guarda
         examinar.setOnAction(e -> {
-            File imagen = obtenerImagen();//todo retomar la forma de agregar la imagen al animal
-            //si la imagen es distinta de null, se procede
-            if(imagen != null){
-                try{
-                    Path sourcePath = imagen.toPath();
-                    Path targetPath = Paths.get(System.getProperty("user.dir")+"/src/main/resources/org/project/protectora/img/animal", imagen.getName());
-
-                    Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
-                    mensajeExaminar.setText("Añadido: "+imagen.getName());
-                }catch(IOException ex){
-                    System.out.println("Imposible guardar");
-                    ex.printStackTrace();
-                }
-            }
+            //obtenemos la imagen
+            NuevoAnimalController.img = obtenerImagen();
         });
 
         //configuramos lo que ocurre al enviar el formulario
         enviar.setOnAction(e -> {
             try{
+
                 subirAnimalBBDD();
                 clearPage();
             }catch (Exception ex){
@@ -173,34 +166,45 @@ public class NuevoAnimalController implements Initializable {
         //nos aseguramos de estén rellenos
         if(nombreAnimalText.isEmpty() || colorText.isEmpty() || sexoText.isEmpty() || castradoText.isEmpty()
                 || Objects.equals(chipText, "") || Objects.equals(razaText, "") || Objects.equals(tamanioText, "")
-                || tipos.getValue().isEmpty()){
+                || tipos.getValue().isEmpty() || img == null){
             throw new RuntimeException("No puede haber campos vacíos");
         }
         if (Objects.equals(tipos.getValue(), tiposArray[0])) {
             Gato gato = new Gato(nombreAnimalText, Color.dictionary(colorText),
                     Sexo.dictionary(sexoText), fechaNacimientoForm, fechaEntradaForm,
-                    Boolean.parseBoolean(castradoText), (chipText==null)?null:Long.parseLong(chipText),
+                    (castradoText==siNoArray[0])?true:false, (chipText==null)?null:Long.parseLong(chipText),
                     (razaText==null)?null:RazaGato.dictionary(razaText),
-                    (tamanioText==null)?null:Tamanio.dictionary(tamanioText));
+                    (tamanioText==null)?null:Tamanio.dictionary(tamanioText),
+                    convertImgToBytes(Path.of(img.getPath())));
             animals.add(gato);
         } else if (Objects.equals(tipos.getValue(), tiposArray[1])) {
             Perro perro = new Perro(nombreAnimalText, Color.dictionary(colorText),
                     Sexo.dictionary(sexoText), fechaNacimientoForm, fechaEntradaForm,
-                    Boolean.parseBoolean(castradoText), (chipText==null)?null:Long.parseLong(chipText),
+                    (castradoText==siNoArray[0])?true:false, (chipText==null)?null:Long.parseLong(chipText),
                     (razaText==null)?null:RazaPerro.dictionary(razaText),
-                    (tamanioText==null)?null:Tamanio.dictionary(tamanioText));
+                    (tamanioText==null)?null:Tamanio.dictionary(tamanioText),
+                    convertImgToBytes(Path.of(img.getPath())));
             animals.add(perro);
         }else if (Objects.equals(tipos.getValue(), tiposArray[2])) {
             Otro otro = new Otro(nombreAnimalText, Color.dictionary(colorText),
                     Sexo.dictionary(sexoText), fechaNacimientoForm, fechaEntradaForm,
-                    Boolean.parseBoolean(castradoText), (chipText==null)?null:Long.parseLong(chipText));
+                    (castradoText==siNoArray[0])?true:false, (chipText==null)?null:Long.parseLong(chipText),
+                    convertImgToBytes(Path.of(img.getPath())));
             animals.add(otro);
+        }
+        try{
+            //Ahora, que ya hemos convertido la imagen en un array de bytes y que pertenece al animal en cuestión, la borramos del programa
+            Files.deleteIfExists(Paths.get(System.getProperty("user.dir")+"/src/main/resources/org/project/protectora/img/animal", img.getName()));
+        }catch(IOException e){
+            e.printStackTrace();
         }
         //subimos el animal a la bbdd
         try{
             ConexionBBDD conexionBBDD = new ConexionBBDD();
             conexionBBDD.insertarAnimal(animals.getFirst());
+            mensajeErrorEnviar.setText("Animal añadido exitosamente");
         }catch (Exception ex){
+            mensajeErrorEnviar.setText("Error al añadir el animal");
             ex.printStackTrace();
         }
     }
@@ -226,6 +230,38 @@ public class NuevoAnimalController implements Initializable {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image files", "*.jpg", "*png"));
         //mostramos el diálogo para que el usuario escoja la img
         File imagen = fileChooser.showOpenDialog(MainScreen.stage);
+        //cargamos la imagen en el programa
+        cargarImagenEnMemoria(imagen);
+        //mostramos el mensaje con el nombre de la imagen seleccionada
+        mensajeExaminar.setText("Añadido: "+imagen.getName());
         return imagen;
+    }
+    private void cargarImagenEnMemoria(File imagen){
+        //si la imagen es distinta de null, se procede
+        if(imagen != null){
+            try{
+                Path sourcePath = imagen.toPath();
+                Path targetPath = Paths.get(System.getProperty("user.dir")+"/src/main/resources/org/project/protectora/img/animal", imagen.getName());
+
+                Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
+            }catch(IOException ex){
+                System.out.println("Imposible guardar");
+                ex.printStackTrace();
+            }
+        }
+    }
+    private byte[] convertImgToBytes(Path path){
+        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+             FileInputStream fileInputStream = new FileInputStream(path.toFile())) {
+            byte[] data = new byte[1024];
+            int readNum;
+            while ((readNum = fileInputStream.read(data)) != -1) {
+                byteArrayOutputStream.write(data, 0, readNum);
+            }
+            return byteArrayOutputStream.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

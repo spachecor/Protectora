@@ -14,8 +14,8 @@ public class Otro extends Animal {
      * @param sexo el sexo del animal
      * @param fechaNacimiento la fecha de nacimiento del animal en meses(podría ser aproximada)
      */
-    public Otro(String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento){
-        super(nombre, color, sexo, fechaNacimiento);
+    public Otro(String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, byte[] img){
+        super(nombre, color, sexo, fechaNacimiento, img);
     }
     /**
      * Constructor que nos permite fijar la fecha de nacimiento y la edad del animal y si está o no castrado
@@ -25,8 +25,8 @@ public class Otro extends Animal {
      * @param fechaNacimiento la fecha de nacimiento del animal en meses(podría ser aproximada)
      * @param castrado si el animal está o no castrado
      */
-    public Otro(String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, boolean castrado){
-        super(nombre, color, sexo, fechaNacimiento, castrado);
+    public Otro(String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, boolean castrado, byte[] img){
+        super(nombre, color, sexo, fechaNacimiento, castrado, img);
     }
     /**
      * Constructor completo que asigna todos los campos al animal
@@ -37,8 +37,8 @@ public class Otro extends Animal {
      * @param castrado si el animal está o no castrado
      * @param chip el nº de chip del animal de 15 cifras
      */
-    public Otro(String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, boolean castrado, long chip){
-        super(nombre, color, sexo, fechaNacimiento, castrado, chip);
+    public Otro(String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, boolean castrado, long chip, byte[] img){
+        super(nombre, color, sexo, fechaNacimiento, castrado, chip, img);
     }
     /**
      * Constructor usado para la creación de un gato ya creado anteriormente (p.ej restauracion de entidades creadas en
@@ -51,8 +51,8 @@ public class Otro extends Animal {
      * @param castrado si el animal está o no castrado
      * @param chip el nº de chip del animal de 15 cifras
      */
-    public Otro(String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, LocalDate fechaEntradaProtectora, Boolean castrado, Long chip) {
-        super(nombre, color, sexo, fechaNacimiento, castrado, chip);
+    public Otro(String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, LocalDate fechaEntradaProtectora, Boolean castrado, Long chip, byte[] img) {
+        super(nombre, color, sexo, fechaNacimiento, castrado, chip, img);
         super.setFechaEntradaProtectora(fechaEntradaProtectora);
     }
     /**
@@ -68,8 +68,8 @@ public class Otro extends Animal {
      * @param chip el nº de chip del animal de 15 cifras
      * @param estados los diferentes estados del animal
      */
-    public Otro(String id, String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, LocalDate fechaEntradaProtectora, Boolean castrado, Long chip, ArrayList<EstadoAnimal> estados) {
-        super(id, nombre, color, sexo, fechaNacimiento, fechaEntradaProtectora, castrado, chip, estados);
+    public Otro(String id, String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, LocalDate fechaEntradaProtectora, Boolean castrado, Long chip, ArrayList<EstadoAnimal> estados, byte[] img) {
+        super(id, nombre, color, sexo, fechaNacimiento, fechaEntradaProtectora, castrado, chip, estados, img);
     }
     @Override
     public String getTipoAnimal() {

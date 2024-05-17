@@ -14,6 +14,7 @@ castrado boolean,
 chip long,
 raza varchar(50),
 tamanio varchar(25),
+img longblob,
 constraint animal_id_pk primary key(id)
 );
 

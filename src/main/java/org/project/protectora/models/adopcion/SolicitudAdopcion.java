@@ -4,6 +4,7 @@ import org.project.protectora.models.Entidad;
 import org.project.protectora.models.animals.Animal;
 import org.project.protectora.models.personas.Usuario;
 import org.project.protectora.properties.*;
+import org.project.protectora.servicios.bbdd.ConexionBBDD;
 
 import java.util.ArrayList;
 
@@ -120,5 +121,13 @@ public final class SolicitudAdopcion extends Entidad{
     }
     public static void setContador(int contador){
         SolicitudAdopcion.contador=contador+1;
+    }
+    public static void reestablecerContador(){
+        try{
+            ConexionBBDD conexionBBDD = new ConexionBBDD();
+            setContador(conexionBBDD.contarsolicitudes());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

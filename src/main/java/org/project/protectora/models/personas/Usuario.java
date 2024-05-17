@@ -2,6 +2,7 @@ package org.project.protectora.models.personas;
 
 import org.project.protectora.models.Entidad;
 import org.eclipse.jdt.annotation.NonNull;
+import org.project.protectora.servicios.bbdd.ConexionBBDD;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -121,6 +122,15 @@ public class Usuario extends Entidad{
 
     public static void setContador(Integer contador) {
         Usuario.contador = contador+1;
+    }
+
+    public static void reestablecerContador(){
+        try{
+            ConexionBBDD conexionBBDD = new ConexionBBDD();
+            setContador(conexionBBDD.contarUsuarios());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
     /**
      * @return Devuelve la edad del usuario en años
