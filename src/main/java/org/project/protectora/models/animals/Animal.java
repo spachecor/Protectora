@@ -96,9 +96,8 @@ public abstract class Animal extends Entidad{
      * @param fechaEntradaProtectora la fecha en la que el animal entró en la protectora
      * @param castrado si el animal está o no castrado
      * @param chip el nº de chip del animal de 15 cifras
-     * @param estados los diferentes estados del animal
      */
-    public Animal(String id, String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, LocalDate fechaEntradaProtectora, Boolean castrado, Long chip, ArrayList<EstadoAnimal> estados, byte[] img) {
+    public Animal(String id, String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, LocalDate fechaEntradaProtectora, Boolean castrado, Long chip, byte[] img) {
         super(id);
         this.nombre = nombre;
         this.color = color;
@@ -107,7 +106,6 @@ public abstract class Animal extends Entidad{
         this.fechaEntradaProtectora = fechaEntradaProtectora;
         this.castrado = castrado;
         this.chip = chip;
-        this.estados = estados;
         this.img=img;
     }
 
@@ -119,8 +117,8 @@ public abstract class Animal extends Entidad{
                 ", tiempoEnProtectora = " + getTiempoEnProtectora() + " meses"+
                 ", color = " + color.getColor() +
                 ", sexo = " + sexo.getSexo() +
-                ", estado = " + estados.getLast().getEstado() +
-                ", estados = " + estados +
+                /*", estado = " + estados.getLast().getEstado() +
+                ", estados = " + estados +*/
                 ", fechaNacimiento= " + fechaNacimiento +
                 ", fechaEntradaProtectora = " + fechaEntradaProtectora +
                 ", castrado = " + castrado +

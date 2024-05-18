@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import org.project.protectora.MainScreen;
 
 import java.io.IOException;
@@ -21,12 +22,14 @@ public class PanelController implements Initializable {
     private Button inicio, limpiarCampos;
     @FXML
     private ChoiceBox<String> tipoEntidad, campos, tipoModificacion, valorNuevo;
+    @FXML
+    private TextField textFieldBusqueda, idEntidad, idAnimalTextField, idUsuarioTextField;
+    @FXML
+    private GridPane gridTarjetas;
     private String[] tiposArray = {"Animal", "Usuario", "Solicitud de Adopción"};
     private String[] camposAnimalArray = {"Nombre", "Sexo"};
     private String[] camposUsuarioArray = {"Nombre", "Sexo"};
     private String[] camposSolicitudAdopcionArray = {"Nombre del animal", "Nombre del usuario"};
-    @FXML
-    private TextField textFieldBusqueda, idEntidad, idAnimalTextField, idUsuarioTextField;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

@@ -132,12 +132,11 @@
                <padding>
                   <Insets top="50.0" />
                </padding></VBox>
-            <TableView prefHeight="620.0" prefWidth="700.0" style="-fx-background-color: #F3EED9;">
-              <columns>
-                <TableColumn prefWidth="206.0" text="Imagen" />
-                <TableColumn prefWidth="493.0" text="Descripción" />
-              </columns>
-            </TableView>
+            <GridPane fx:id="gridTarjetas" prefHeight="620.0" prefWidth="0.0">
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
          </children></HBox>
    </children>
 </VBox>

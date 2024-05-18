@@ -175,7 +175,7 @@ public class NuevoAnimalController implements Initializable {
                     (castradoText==siNoArray[0])?true:false, (chipText==null)?null:Long.parseLong(chipText),
                     (razaText==null)?null:RazaGato.dictionary(razaText),
                     (tamanioText==null)?null:Tamanio.dictionary(tamanioText),
-                    convertImgToBytes(Path.of(img.getPath())));
+                    ConexionBBDD.convertImgToBytes(Path.of(img.getPath())));
             animals.add(gato);
         } else if (Objects.equals(tipos.getValue(), tiposArray[1])) {
             Perro perro = new Perro(nombreAnimalText, Color.dictionary(colorText),
@@ -183,13 +183,13 @@ public class NuevoAnimalController implements Initializable {
                     (castradoText==siNoArray[0])?true:false, (chipText==null)?null:Long.parseLong(chipText),
                     (razaText==null)?null:RazaPerro.dictionary(razaText),
                     (tamanioText==null)?null:Tamanio.dictionary(tamanioText),
-                    convertImgToBytes(Path.of(img.getPath())));
+                    ConexionBBDD.convertImgToBytes(Path.of(img.getPath())));
             animals.add(perro);
         }else if (Objects.equals(tipos.getValue(), tiposArray[2])) {
             Otro otro = new Otro(nombreAnimalText, Color.dictionary(colorText),
                     Sexo.dictionary(sexoText), fechaNacimientoForm, fechaEntradaForm,
                     (castradoText==siNoArray[0])?true:false, (chipText==null)?null:Long.parseLong(chipText),
-                    convertImgToBytes(Path.of(img.getPath())));
+                    ConexionBBDD.convertImgToBytes(Path.of(img.getPath())));
             animals.add(otro);
         }
         try{
@@ -248,20 +248,6 @@ public class NuevoAnimalController implements Initializable {
                 System.out.println("Imposible guardar");
                 ex.printStackTrace();
             }
-        }
-    }
-    private byte[] convertImgToBytes(Path path){
-        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-             FileInputStream fileInputStream = new FileInputStream(path.toFile())) {
-            byte[] data = new byte[1024];
-            int readNum;
-            while ((readNum = fileInputStream.read(data)) != -1) {
-                byteArrayOutputStream.write(data, 0, readNum);
-            }
-            return byteArrayOutputStream.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
         }
     }
 }

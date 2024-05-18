@@ -42,13 +42,11 @@ public final class SolicitudAdopcion extends Entidad{
      * @param id el id de la solicitud
      * @param animal el animal a adoptar
      * @param adoptante el usuario interesado en la adopcion
-     * @param estados los estados por los que ha pasado la adopcion
      */
-    public SolicitudAdopcion(String id, Animal animal, Usuario adoptante, ArrayList<EstadoAdopcion> estados){
+    public SolicitudAdopcion(String id, Animal animal, Usuario adoptante){
         super(id);
         this.animal = animal;
         this.adoptante = adoptante;
-        this.estados = estados;
     }
     public static EstadoAdopcion resolverAdopcion(SolicitudAdopcion solicitud, boolean aprobacion){
         if(aprobacion&&solicitud.getEstado()==EstadoAdopcion.EN_ESPERA){
@@ -72,9 +70,9 @@ public final class SolicitudAdopcion extends Entidad{
     public String toString() {
         return "SolicitudAdopcion{" +
                 "animal=" + animal +
-                ", adoptante=" + adoptante +
+                ", adoptante=" + adoptante /*+
                 ", estado=" + this.estados.getLast() +
-                '}';
+                '}'*/;
     }
 
     @Override

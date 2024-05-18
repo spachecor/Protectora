@@ -66,10 +66,9 @@ public class Otro extends Animal {
      * @param fechaEntradaProtectora la fecha en la que el animal entró en la protectora
      * @param castrado si el animal está o no castrado
      * @param chip el nº de chip del animal de 15 cifras
-     * @param estados los diferentes estados del animal
      */
-    public Otro(String id, String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, LocalDate fechaEntradaProtectora, Boolean castrado, Long chip, ArrayList<EstadoAnimal> estados, byte[] img) {
-        super(id, nombre, color, sexo, fechaNacimiento, fechaEntradaProtectora, castrado, chip, estados, img);
+    public Otro(String id, String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, LocalDate fechaEntradaProtectora, Boolean castrado, Long chip, byte[] img) {
+        super(id, nombre, color, sexo, fechaNacimiento, fechaEntradaProtectora, castrado, chip, img);
     }
     @Override
     public String getTipoAnimal() {

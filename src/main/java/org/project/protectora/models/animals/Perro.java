@@ -90,12 +90,11 @@ public final class Perro extends Animal{
      * @param fechaEntradaProtectora la fecha en la que el animal entró en la protectora
      * @param castrado si el animal está o no castrado
      * @param chip el nº de chip del animal de 15 cifras
-     * @param estados los diferentes estados del animal
      * @param raza la raza del perro
      * @param tamanio el tamaño del perro
      */
-    public Perro(String id, String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, LocalDate fechaEntradaProtectora, Boolean castrado, Long chip, ArrayList<EstadoAnimal> estados, RazaPerro raza, Tamanio tamanio, byte[] img) {
-        super(id, nombre, color, sexo, fechaNacimiento, fechaEntradaProtectora, castrado, chip, estados, img);
+    public Perro(String id, String nombre, Color color, Sexo sexo, LocalDate fechaNacimiento, LocalDate fechaEntradaProtectora, Boolean castrado, Long chip, RazaPerro raza, Tamanio tamanio, byte[] img) {
+        super(id, nombre, color, sexo, fechaNacimiento, fechaEntradaProtectora, castrado, chip, img);
         this.raza = raza;
         this.tamanio = tamanio;
     }
