@@ -6,7 +6,6 @@ import org.project.protectora.models.animals.Animal;
 import org.project.protectora.models.animals.Gato;
 import org.project.protectora.models.animals.Otro;
 import org.project.protectora.models.animals.Perro;
-import org.project.protectora.models.personas.Direccion;
 import org.project.protectora.models.personas.Usuario;
 import org.project.protectora.properties.*;
 import org.project.protectora.properties.Color;
@@ -155,6 +154,9 @@ public class ConexionBBDD {
                             Sexo.dictionary(sexo), fechaNacimiento, fechaEntradaProtectora, castrado,
                             chip, img);
                 }
+                if(entidad instanceof Animal){
+                    convertBytesToImg(((Animal) entidad).getImg(), entidad.getId());
+                }
                 entidades.add(entidad);
             }
             //ahora extraemos los usuarios
@@ -274,7 +276,7 @@ public class ConexionBBDD {
             return null;
         }
     }
-    public void convertBytesToImg(byte[] bytes){
+    public void convertBytesToImg(byte[] bytes, String nombreImg){
         //Se crea un ByteArrayInputStream a partir del array de bytes. Este stream permite leer los bytes de la imagen.
         //Luego se crea un ImageInputStream a partir del ByteArrayInputStream. Este stream es necesario para que el
         //ImageReader pueda leer la imagen.
@@ -301,7 +303,7 @@ public class ConexionBBDD {
             //liberamos Graphics2D
             g2.dispose();
             //Se crea un objeto File para representar el archivo donde se guardará la imagen.
-            File imageFile = new File(System.getProperty("user.dir")+"/src/main/resources/org/project/protectora/example/img.jpg");
+            File imageFile = new File(System.getProperty("user.dir")+"/src/main/resources/org/project/protectora/img/animal/"+nombreImg+".jpg");
             //Se escribe el BufferedImage en el archivo en formato "jpg".
             ImageIO.write(bufferedImage, "jpg", imageFile);
         }catch (Exception e){

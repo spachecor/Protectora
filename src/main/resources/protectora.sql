@@ -60,17 +60,9 @@ constraint estadoAnimal_adopcion_fk foreign key(adopcion) references solicitudAd
 
 set sql_safe_updates = 0;
 delete from animal;
-id varchar(10),
-email varchar(50),
-telefono int,
-nombre varchar(100),
-fechaNacimiento date,
-dni char(9),
-ocupacion varchar(100),
-direccion varchar(200),
-localidad varchar(100),
-provincia varchar(100),
-codigoPostal int,
+delete from usuario;
+delete from solicitudAdopcion;
+
 insert into usuario values ("usu-1", "usuario1@gmail.com", 987456123, "Francisco Protos", "19850612", "12345678A", null, "Calle Fake, 3", "Sevilla", "Sevilla", 41015);
 insert into usuario values ("usu-2", "usuario2@gmail.com", 654789321, "Francisca Protas", "19950218", "98765432F", null, "Calle AntiFake, 8", "Sevilla", "Sevilla", 41015);
 insert into solicitudAdopcion values ("sol-1", "ani-1", "usu-1"), ("sol-2", "ani-3", "usu-2");

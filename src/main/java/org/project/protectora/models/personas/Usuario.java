@@ -107,10 +107,7 @@ public class Usuario extends Entidad{
                 "Nombre: " + this.getNombre() + "\n" +
                 "Ocupacion: " + this.getOcupacion() + "\n" +
                 "Email: " + this.getEmail() + "\n" +
-                "Direccion: " + this.getDireccion().getDireccion() + "\n" +
-                "Localidad: " + this.getDireccion().getLocalidad() + "\n" +
-                "Provincia: " + this.getDireccion().getProvincia() + "\n" +
-                "CodigoPostal: " + this.getDireccion().getCodigoPostal() + "\n" +
+                "Direccion: " + this.getDireccion().getDireccion() + ", " + this.getDireccion().getLocalidad() + ", " + this.getDireccion().getProvincia() + ", " + this.getDireccion().getCodigoPostal() + "\n" +
                 "Telefono: " + this.getTelefono() + "\n" +
                 "FechaNacimiento: " + this.getFechaNacimiento() + "\n" +
                 "Edad: " + this.getEdad() + " años";

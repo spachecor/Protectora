@@ -79,8 +79,8 @@ public final class SolicitudAdopcion extends Entidad{
     public String getDescripcion() {
         return "Id: "+this.getId()+"\n"+
                 "animal con id: "+this.getAnimal().getId()+"\n"+
-                "adoptante con id: "+this.getAdoptante().getId()+"\n"+
-                "estado: "+this.getEstado();
+                "adoptante con id: "+this.getAdoptante().getId()/*+"\n"+
+                "estado: "+this.getEstado()*/;
     }
 
     public Animal getAnimal() {

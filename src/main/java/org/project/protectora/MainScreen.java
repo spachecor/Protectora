@@ -11,6 +11,7 @@ import org.project.protectora.models.personas.Usuario;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.Optional;
 
 public class MainScreen extends Application {
     //tomamos la stage como propiedad static para poder modificarla con cambios de escenas
