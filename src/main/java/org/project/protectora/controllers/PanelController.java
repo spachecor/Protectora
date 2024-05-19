@@ -8,8 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import org.project.protectora.MainScreen;
 import org.project.protectora.models.Entidad;
 import org.project.protectora.servicios.bbdd.ConexionBBDD;
@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class PanelController implements Initializable {
@@ -30,7 +29,7 @@ public class PanelController implements Initializable {
     @FXML
     private TextField textFieldBusqueda, idEntidad, idAnimalTextField, idUsuarioTextField;
     @FXML
-    private GridPane cardContainer;
+    private VBox vbox;
     private String[] tiposArray = {"Animal", "Usuario", "Solicitud de Adopción"};
     private String[] camposAnimalArray = {"Nombre", "Sexo"};
     private String[] camposUsuarioArray = {"Nombre", "Sexo"};
@@ -75,8 +74,6 @@ public class PanelController implements Initializable {
             //tomamos la lista de entidades
             List<Entidad> entidades = conexionBBDD.obtenerEntidadesDeBBDD();
             //ajustamos columnas y filas
-            int column = 0;
-            int row = 0;
             //iteramos la lista agregando las tarjetas
             for(Entidad entidad : entidades){
                 FXMLLoader fxmlLoader = new FXMLLoader(MainScreen.class.getResource("fxml/card.fxml"));
@@ -84,13 +81,7 @@ public class PanelController implements Initializable {
                 HBox cardHBox = fxmlLoader.load();
                 Card cardController = fxmlLoader.getController();
                 cardController.setData(entidad);
-
-                //ajustamos columnas y filas
-                if(column == 1){
-                    column = 0;
-                    row++;
-                }
-                cardContainer.add(cardHBox, column++, row);
+                vbox.getChildren().add(cardHBox);
             }
         }catch (Exception e){
             e.printStackTrace();

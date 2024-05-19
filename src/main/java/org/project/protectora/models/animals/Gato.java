@@ -118,8 +118,8 @@ public final class Gato extends Animal {
         return "ID: "+this.getId()+"\n"+
                 "Nombre: "+this.getNombre()+"\n"+
                 "Edad: "+((this.getEdad()>12)?this.getEdad()/12+" año/s":this.getEdad()+" mes/es")+"\n"+
-                "Raza del gato: "+this.getRaza()+"\n"+
-                "Color: "+this.getColor();
+                "Raza del gato: "+this.getRaza().getRaza().replace("-", " ")+"\n"+
+                "Color: "+this.getColor().getColor().replace("-", " ");
     }
     @Override
     public String getDescripcionAmpliada(){

@@ -70,3 +70,4 @@ insert into solicitudAdopcion values ("sol-1", "ani-1", "usu-1"), ("sol-2", "ani
 select * from animal;
 select * from usuario;
 select * from solicitudAdopcion;
+

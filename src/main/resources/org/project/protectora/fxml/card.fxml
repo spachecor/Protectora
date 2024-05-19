@@ -6,10 +6,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<HBox fx:id="cardHBox" alignment="CENTER_LEFT" prefHeight="170.0" prefWidth="500.0" spacing="20.0" style="-fx-border-color: #E19992; -fx-border-width: 3; -fx-border-radius: 10px; -fx-background-radius: 10px;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.protectora.controllers.Card">
+<HBox fx:id="cardHBox" alignment="CENTER_LEFT" minHeight="230.0" minWidth="500.0" prefHeight="230.0" prefWidth="500.0" spacing="20.0" style="-fx-border-color: #E19992; -fx-border-width: 3; -fx-border-radius: 10px; -fx-background-radius: 10px;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.protectora.controllers.Card">
    <children>
-      <ImageView fx:id="imagen" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="descripcion" prefHeight="140.0" prefWidth="354.0">
+      <ImageView fx:id="imagen" fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" style="-fx-min-height: 150px;" />
+      <Label fx:id="descripcion" minWidth="210.0" prefHeight="440.0" prefWidth="334.0">
          <font>
             <Font name="Comic Sans MS" size="13.0" />
          </font>

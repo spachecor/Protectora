@@ -111,8 +111,8 @@ public final class Perro extends Animal{
         return "ID: "+this.getId()+"\n"+
                 "Nombre: "+this.getNombre()+"\n"+
                 "Edad: "+((this.getEdad()>12)?this.getEdad()/12+" año/s":this.getEdad()+" mes/es")+"\n"+
-                "Raza del perro: "+this.getRaza()+"\n"+
-                "Color: "+this.getColor();
+                "Raza del perro: "+this.getRaza().getRaza().replace("-", " ")+"\n"+
+                "Color: "+this.getColor().getColor().replace("-", " ");
     }
     @Override
     public String getDescripcionAmpliada(){

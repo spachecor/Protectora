@@ -182,6 +182,12 @@ public class ConexionBBDD {
             }
         }catch (Exception e){
             e.printStackTrace();
+        }finally {
+            try{
+                connection.close();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         return entidades;
     }

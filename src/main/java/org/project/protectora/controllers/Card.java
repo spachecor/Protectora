@@ -11,6 +11,7 @@ import org.project.protectora.models.adopcion.SolicitudAdopcion;
 import org.project.protectora.models.animals.Animal;
 import org.project.protectora.models.personas.Usuario;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -23,7 +24,10 @@ public class Card {
 
     public void setData(Entidad entidad) {
         if(entidad instanceof Animal){
-            Image image = new Image(MainScreen.class.getResourceAsStream("img/animal/"+entidad.getId()+".jpg"));
+            Image image = new Image(
+                    "file:///C:\\Users\\Selene\\Documents\\workspace-java\\" +
+                       "Protectora\\src\\main\\resources\\org\\project\\protectora\\img\\animal\\"+entidad.getId()+".jpg"
+            );
             imagen.setImage(image);
         }else if (entidad instanceof Usuario){
             Image image = new Image(MainScreen.class.getResourceAsStream("img/usuarioBase.jpg"));
