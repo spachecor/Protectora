@@ -23,6 +23,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 public class ConexionBBDD {
     private static String url, pwd, user;
@@ -129,69 +130,22 @@ public class ConexionBBDD {
             Statement statement = connection.createStatement();
             //empezamos con extraer los animales
             ResultSet resultSetUno = statement.executeQuery(queryUno);
-            while(resultSetUno.next()){
-                Entidad entidad;
-                String id = resultSetUno.getString("id"), nombre = resultSetUno.getString("nombre"),
-                        color = resultSetUno.getString("color"), sexo = resultSetUno.getString("sexo");
-                LocalDate fechaNacimiento = resultSetUno.getDate("fechaNacimiento").toLocalDate(),
-                        fechaEntradaProtectora = resultSetUno.getDate("fechaEntradaProtectora").toLocalDate();
-                boolean castrado = resultSetUno.getBoolean("castrado");
-                long chip = resultSetUno.getLong("chip");
-                byte[] img = resultSetUno.getBytes("img");
-
-                if(resultSetUno.getString("tipo").equals("Gato")){
-                    entidad = new Gato(id, nombre, Color.dictionary(color.replace("-", " ")),
-                            Sexo.dictionary(sexo), fechaNacimiento, fechaEntradaProtectora, castrado,
-                            chip, RazaGato.dictionary(resultSetUno.getString("raza")),
-                            Tamanio.dictionary(resultSetUno.getString("tamanio")), img);
-                }else if(resultSetUno.getString("tipo").equals("Perro")){
-                    entidad = new Perro(id, nombre, Color.dictionary(color.replace("-", " ")),
-                            Sexo.dictionary(sexo), fechaNacimiento, fechaEntradaProtectora, castrado,
-                            chip, RazaPerro.dictionary(resultSetUno.getString("raza")),
-                            Tamanio.dictionary(resultSetUno.getString("tamanio")), img);
-                }else {
-                    entidad = new Otro(id, nombre, Color.dictionary(color.replace("-", " ")),
-                            Sexo.dictionary(sexo), fechaNacimiento, fechaEntradaProtectora, castrado,
-                            chip, img);
-                }
-                if(entidad instanceof Animal){
-                    convertBytesToImg(((Animal) entidad).getImg(), entidad.getId());
-                }
-                entidades.add(entidad);
-            }
+            //llamamos al metodo para que cree los animales según la consulta y los añadimos a la lista de entidades
+            entidades.addAll(createAnimalFromSelect(resultSetUno));
             //ahora extraemos los usuarios
             ResultSet resultSetDos = statement.executeQuery(queryDos);
-            while (resultSetDos.next()){
-                entidades.add(
-                        new Usuario(resultSetDos.getString("id"), resultSetDos.getString("email"),
-                                resultSetDos.getInt("telefono"), resultSetDos.getString("nombre"),
-                                resultSetDos.getDate("fechaNacimiento").toLocalDate(), resultSetDos.getString("dni"),
-                                resultSetDos.getString("ocupacion"), resultSetDos.getString("direccion"),
-                                resultSetDos.getString("localidad"), resultSetDos.getString("provincia"),
-                                resultSetDos.getInt("codigoPostal"))
-                );
-            }
+            //llamamos al metodo para que cree los usuarios según la consulta y los añadimos a la lista de entidades
+            entidades.addAll(createUserFromSelect(resultSetDos));
             //ahora extraemos las solicitudes de adopción
             ResultSet resultSetTres = statement.executeQuery(queryTres);
-            while(resultSetTres.next()){
-                entidades.add(
-                        new SolicitudAdopcion(resultSetTres.getString("id"),
-                                buscarAnimalPorId(resultSetTres.getString("animal")),
-                                buscarUsuarioPorId(resultSetTres.getString("adoptante")))
-                );
-            }
+            //llamamos al metodo para que cree las solicitudes de adopción según la consulta y los añadimos a la lista de entidades
+            entidades.addAll(createAdoptionApplicationFromSelect(resultSetTres));
         }catch (Exception e){
             e.printStackTrace();
-        }finally {
-            try{
-                connection.close();
-            }catch (Exception e){
-                e.printStackTrace();
-            }
         }
         return entidades;
     }
-    private static Animal buscarAnimalPorId(String idAnimal){
+    public static Animal buscarAnimalPorId(String idAnimal){
         Animal animal = null;
         try{
             String query = "SELECT * FROM animal where id like ?";
@@ -229,7 +183,7 @@ public class ConexionBBDD {
         }
         return animal;
     }
-    private static Usuario buscarUsuarioPorId(String id){
+    public static Usuario buscarUsuarioPorId(String id){
         Usuario usuario = null;
         try{
             String query = "SELECT * FROM usuario where id like ?";
@@ -250,7 +204,7 @@ public class ConexionBBDD {
         }
         return usuario;
     }
-    private static SolicitudAdopcion buscarSolicitudPorId(String id){
+    public static SolicitudAdopcion buscarSolicitudPorId(String id){
         SolicitudAdopcion solicitud = null;
         try{
             String query = "SELECT * FROM usuario where id like ?";
@@ -267,7 +221,6 @@ public class ConexionBBDD {
         }
         return solicitud;
     }
-
     public static byte[] convertImgToBytes(Path path){
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
              FileInputStream fileInputStream = new FileInputStream(path.toFile())) {
@@ -315,5 +268,82 @@ public class ConexionBBDD {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+    public List<Entidad> buscarEntidadesPorTablaYCampo(String tabla, String campo, String valor){
+        List<Entidad> entidades = new ArrayList<>();
+        try{
+            String query = "select * from ? where ? = ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, tabla);
+            ps.setString(2, campo);
+            ps.setString(3, valor);
+            ResultSet rs = ps.executeQuery();
+            if(Objects.equals(tabla, "animal"))entidades.addAll(createAnimalFromSelect(rs));
+            if(Objects.equals(tabla, "usuario"))entidades.addAll(createUserFromSelect(rs));
+            if(Objects.equals(tabla, "solicitudAdopcion"))entidades.addAll(createAdoptionApplicationFromSelect(rs));
+            //todo metodo terminado, crear codigo para implementar la busqueda por tabla, campo y valor(tipo, campo y valor)
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return entidades;
+    }
+    private List<Entidad> createAnimalFromSelect(ResultSet rs) throws SQLException {
+        List<Entidad> entidades = new ArrayList<>();
+        while(rs.next()){
+            Entidad entidad;
+            String id = rs.getString("id"), nombre = rs.getString("nombre"),
+                    color = rs.getString("color"), sexo = rs.getString("sexo");
+            LocalDate fechaNacimiento = rs.getDate("fechaNacimiento").toLocalDate(),
+                    fechaEntradaProtectora = rs.getDate("fechaEntradaProtectora").toLocalDate();
+            boolean castrado = rs.getBoolean("castrado");
+            long chip = rs.getLong("chip");
+            byte[] img = rs.getBytes("img");
+
+            if(rs.getString("tipo").equals("Gato")){
+                entidad = new Gato(id, nombre, Color.dictionary(color.replace("-", " ")),
+                        Sexo.dictionary(sexo), fechaNacimiento, fechaEntradaProtectora, castrado,
+                        chip, RazaGato.dictionary(rs.getString("raza")),
+                        Tamanio.dictionary(rs.getString("tamanio")), img);
+            }else if(rs.getString("tipo").equals("Perro")){
+                entidad = new Perro(id, nombre, Color.dictionary(color.replace("-", " ")),
+                        Sexo.dictionary(sexo), fechaNacimiento, fechaEntradaProtectora, castrado,
+                        chip, RazaPerro.dictionary(rs.getString("raza")),
+                        Tamanio.dictionary(rs.getString("tamanio")), img);
+            }else {
+                entidad = new Otro(id, nombre, Color.dictionary(color.replace("-", " ")),
+                        Sexo.dictionary(sexo), fechaNacimiento, fechaEntradaProtectora, castrado,
+                        chip, img);
+            }
+            if(entidad instanceof Animal){
+                convertBytesToImg(((Animal) entidad).getImg(), entidad.getId());
+            }
+            entidades.add(entidad);
+        }
+        return entidades;
+    }
+    private List<Entidad> createUserFromSelect(ResultSet rs) throws SQLException {
+        List<Entidad> entidades = new ArrayList<>();
+        while (rs.next()){
+            entidades.add(
+                    new Usuario(rs.getString("id"), rs.getString("email"),
+                            rs.getInt("telefono"), rs.getString("nombre"),
+                            rs.getDate("fechaNacimiento").toLocalDate(), rs.getString("dni"),
+                            rs.getString("ocupacion"), rs.getString("direccion"),
+                            rs.getString("localidad"), rs.getString("provincia"),
+                            rs.getInt("codigoPostal"))
+            );
+        }
+        return entidades;
+    }
+    private List<Entidad> createAdoptionApplicationFromSelect(ResultSet resultSetTres) throws SQLException {
+        List<Entidad> entidades = new ArrayList<>();
+        while(resultSetTres.next()){
+            entidades.add(
+                    new SolicitudAdopcion(resultSetTres.getString("id"),
+                            buscarAnimalPorId(resultSetTres.getString("animal")),
+                            buscarUsuarioPorId(resultSetTres.getString("adoptante")))
+            );
+        }
+        return entidades;
     }
 }
