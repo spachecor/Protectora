@@ -32,7 +32,7 @@ public final class SolicitudAdopcion extends Entidad{
         this.estados=new ArrayList<>();
         this.animal=animal;
         this.adoptante=adoptante;
-        this.asignarEstadoAdopcion(animal);
+        //this.asignarEstadoAdopcion(animal);
         SolicitudAdopcion.contador++;
     }
 
@@ -57,14 +57,14 @@ public final class SolicitudAdopcion extends Entidad{
     /**
      * Método que asigna el estado de la adopcion inicial a la solicitud según el estado del animal, dejando solo adoptar
      * a animales adoptables. Pone el estado es espera si es adoptable o denegada si no es adoptable
-     * @param animal el animal que se quiere adoptar
+     //* @param animal el animal que se quiere adoptar
      */
-    public void asignarEstadoAdopcion(Animal animal){
+    /*public void asignarEstadoAdopcion(Animal animal){
         if(animal.getEstado()== EstadoAnimal.INDOCUMENTADO
                 ||animal.getEstado()==EstadoAnimal.ADOPTADO
                 ||animal.getEstado()==EstadoAnimal.FALLECIDO)this.setEstado(EstadoAdopcion.DENEGADA);
         else setEstado(EstadoAdopcion.EN_ESPERA);
-    }
+    }*/
 
     @Override
     public String toString() {

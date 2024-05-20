@@ -126,8 +126,8 @@ public final class Perro extends Animal{
                 "- "+((getCastrado()==null)?"Animal castrado\n":"Animal sin castrar\n")+
                 "- "+((getChip()==null)?"Animal sin chip\n":"Animal con chip\n")+
                 "- Raza del perro: "+this.getRaza()+"\n"+
-                "- Tamanio: "+this.getTamanio()+"\n"+
-                "- Estado: "+this.getEstado();
+                "- Tamanio: "+this.getTamanio();
+                //"- Estado: "+this.getEstado();
     }
     @Override
     public String getTipoAnimal() {

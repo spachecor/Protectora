@@ -95,7 +95,7 @@ public class Otro extends Animal {
                 "- Tiempo en la protectora: "+((this.getTiempoEnProtectora()>12)?this.getTiempoEnProtectora()/12+" año/s":this.getTiempoEnProtectora()+" mes/es")+"\n"+
                 "- "+((getCastrado())?"Animal castrado\n":"Animal sin castrar\n")+
                 "- "+((getChip()==null)?"Animal sin chip\n":"Animal con chip\n")+
-                "- Estado: "+this.getEstado()+"\n"+
+                //"- Estado: "+this.getEstado()+"\n"+
                 "- Tipo: Otro";
     }
 }

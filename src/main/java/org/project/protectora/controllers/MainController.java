@@ -44,6 +44,7 @@ public class MainController implements Initializable {
                 MainScreen.stage.setTitle("Nuevo usuario");
             }catch(IOException ex){
                 System.out.println("Imposible cargar: "+ex.getMessage());
+                ex.printStackTrace();
             }
         });
 

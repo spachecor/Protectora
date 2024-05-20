@@ -86,6 +86,15 @@
                         </Button>
                      </children>
                   </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="respuestaSolicitud">
+                           <font>
+                              <Font name="Comic Sans MS" size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                      <children>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="150.0" spacing="10.0" style="-fx-border-color: #57423f; -fx-border-style: dotted;">
@@ -108,13 +117,18 @@
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="150.0" spacing="10.0" style="-fx-border-color: #57423f; -fx-border-style: dotted;">
                            <children>
-                              <Label text="Modificar">
-                                 <font>
-                                    <Font name="Comic Sans MS" size="13.0" />
-                                 </font>
-                              </Label>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Label text="Modificar ">
+                                       <font>
+                                          <Font name="Comic Sans MS" size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <ChoiceBox fx:id="entidadModificable" prefWidth="60.0" style="-fx-background-color: #F3EED9; -fx-border-color: #E19992;" />
+                                 </children>
+                              </HBox>
                               <ChoiceBox fx:id="tipoModificacion" prefWidth="150.0" style="-fx-border-color: #E19992; -fx-background-color: #F3EED9;" />
-                              <ChoiceBox fx:id="valorNuevo" prefWidth="150.0" style="-fx-border-color: #E19992; -fx-background-color: #F3EED9;" />
+                              <TextField fx:id="valorNuevo" promptText="Nuevo valor" />
                               <Button fx:id="modificar" mnemonicParsing="false" style="-fx-background-color: #E19992;" text="Modificar" textFill="WHITE">
                                  <font>
                                     <Font size="13.0" />

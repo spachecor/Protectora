@@ -78,6 +78,30 @@ public class ConexionBBDD {
             throw new RuntimeException("Error al insertar el animal");
         }
     }
+    public void insertarUsuario(Usuario usuario) throws SQLException{
+        String query = "insert into usuario values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, usuario.getId());
+        statement.setString(2, usuario.getEmail());
+        statement.setInt(3, usuario.getTelefono());
+        statement.setString(4, usuario.getNombre());
+        statement.setDate(5, Date.valueOf(usuario.getFechaNacimiento()));
+        statement.setString(6, usuario.getDni());
+        statement.setString(7, usuario.getOcupacion());
+        statement.setString(8, usuario.getDireccion().getDireccion());
+        statement.setString(9, usuario.getDireccion().getLocalidad());
+        statement.setString(10, usuario.getDireccion().getProvincia());
+        statement.setInt(11, usuario.getDireccion().getCodigoPostal());
+        statement.executeUpdate();
+    }
+    public void insertarSolicitudAdopcion(SolicitudAdopcion solicitud) throws SQLException{
+        String query = "insert into solicitudAdopcion values (?, ?, ?)";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, solicitud.getId());
+        statement.setString(2, solicitud.getAnimal().getId());
+        statement.setString(3, solicitud.getAdoptante().getId());
+        statement.executeUpdate();
+    }
     public int contarAnimales(){
         int resultado=0;
         try{
@@ -207,19 +231,55 @@ public class ConexionBBDD {
     public static SolicitudAdopcion buscarSolicitudPorId(String id){
         SolicitudAdopcion solicitud = null;
         try{
-            String query = "SELECT * FROM usuario where id like ?";
+            String query = "SELECT * FROM solicitudAdopcion where id like ?";
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()){
                 solicitud = new SolicitudAdopcion(rs.getString("id"), buscarAnimalPorId(rs.getString("animal")),
-                        buscarUsuarioPorId(rs.getString("usuario")));
+                        buscarUsuarioPorId(rs.getString("adoptante")));
             }
         }catch (Exception e){
             e.printStackTrace();
         }
         return solicitud;
+    }
+    public void eliminarPorId(String id) throws SQLException{
+        String tabla = null, comprobacion = String.valueOf(id.charAt(0));
+        switch (comprobacion){
+            case "a":
+                tabla = "animal";
+                break;
+            case "u":
+                tabla = "usuario";
+                break;
+            case "s":
+                tabla = "solicitudAdopcion";
+                break;
+        }
+        String query = "delete from "+tabla+" where id like ?";
+        PreparedStatement ps = connection.prepareStatement(query);
+        ps.setString(1, id);
+        ps.executeUpdate();
+    }
+    public void modificarPorId(String id, String nuevoValor) throws SQLException{
+        String tabla = null, comprobacion = String.valueOf(id.charAt(0));
+        switch (comprobacion){
+            case "a":
+                tabla = "animal";
+                break;
+            case "u":
+                tabla = "usuario";
+                break;
+            case "s":
+                tabla = "solicitudAdopcion";
+                break;
+        }
+        String query = "update "+tabla+" set nombre = '"+nuevoValor+"' where id like ?";
+        PreparedStatement ps = connection.prepareStatement(query);
+        ps.setString(1, id);
+        ps.executeUpdate();
     }
     public static byte[] convertImgToBytes(Path path){
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -272,16 +332,13 @@ public class ConexionBBDD {
     public List<Entidad> buscarEntidadesPorTablaYCampo(String tabla, String campo, String valor){
         List<Entidad> entidades = new ArrayList<>();
         try{
-            String query = "select * from ? where ? = ?";
+            String query = "select * from "+tabla+" where "+campo+" like ?";
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setString(1, tabla);
-            ps.setString(2, campo);
-            ps.setString(3, valor);
+            ps.setString(1, valor);
             ResultSet rs = ps.executeQuery();
             if(Objects.equals(tabla, "animal"))entidades.addAll(createAnimalFromSelect(rs));
             if(Objects.equals(tabla, "usuario"))entidades.addAll(createUserFromSelect(rs));
             if(Objects.equals(tabla, "solicitudAdopcion"))entidades.addAll(createAdoptionApplicationFromSelect(rs));
-            //todo metodo terminado, crear codigo para implementar la busqueda por tabla, campo y valor(tipo, campo y valor)
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -30,7 +30,7 @@ public class AnimalLista<T extends Animal> extends ListaPersonalizadaList<T>{
     public List<T> listar(CamposOrdenacion campo, DireccionOrdenacion direccion) {
         //para no modificar nuestra lista original, creamos una nueva lista para ordenarla
         List<T> listaOrdenada = new ArrayList<>(this.lista);
-        //ordenamos usando la interfaz comparator implementándola con clase anónima
+        /*//ordenamos usando la interfaz comparator implementándola con clase anónima
         //el método .sort ordenará según el valor que devuelva el método compare
         listaOrdenada.sort(new Comparator<>() {
             @Override
@@ -60,7 +60,7 @@ public class AnimalLista<T extends Animal> extends ListaPersonalizadaList<T>{
                 //devuelve el resultado
                 return resultado;
             }
-        });
+        });*/
         return listaOrdenada;
     }
 }

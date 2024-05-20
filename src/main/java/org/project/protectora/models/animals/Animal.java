@@ -48,7 +48,7 @@ public abstract class Animal extends Entidad{
         //se instancia el Arraylist de estados
         this.estados=new ArrayList<>();
         //se introduce el nuevo estado
-        this.setEstado(EstadoAnimal.INDOCUMENTADO);
+        //this.setEstado(EstadoAnimal.INDOCUMENTADO);
         this.fechaEntradaProtectora=LocalDate.now();
         this.fechaNacimiento=fechaNacimiento;
         this.img=img;
@@ -82,7 +82,7 @@ public abstract class Animal extends Entidad{
         //si la lista de estados no está vacía, se vaciará, porque si llamamos a este constructor el animal sí tiene chip
         if(!this.estados.isEmpty())this.estados.removeAll(this.estados);
         //ahora, con la lista de estados vacía, se agrega el estado del animal
-        this.setEstado(EstadoAnimal.ADOPTABLE);
+        //this.setEstado(EstadoAnimal.ADOPTABLE);
     }
 
     /**
@@ -202,13 +202,13 @@ public abstract class Animal extends Entidad{
         this.chip = chip;
     }
 
-    public EstadoAnimal getEstado() {
+    /*public EstadoAnimal getEstado() {
         return estados.getLast();
     }
 
     public void setEstado(EstadoAnimal estado) {
         this.estados.add(estado);
-    }
+    }*/
 
     public byte[] getImg() {
         return img;

@@ -133,8 +133,8 @@ public final class Gato extends Animal {
                 "- "+((getCastrado())?"Animal castrado\n":"Animal sin castrar\n")+
                 "- "+((getChip()==null)?"Animal sin chip\n":"Animal con chip\n")+
                 "- Raza del gato: "+this.getRaza()+"\n"+
-                "- Tamanio: "+this.getTamanio()+"\n"+
-                "- Estado: "+this.getEstado();
+                "- Tamanio: "+this.getTamanio();
+                //"- Estado: "+this.getEstado();
     }
 
     public RazaGato getRaza() {

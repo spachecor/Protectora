@@ -7,34 +7,36 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.project.protectora.MainScreen;
 import org.project.protectora.models.Entidad;
+import org.project.protectora.models.adopcion.SolicitudAdopcion;
 import org.project.protectora.servicios.bbdd.ConexionBBDD;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class PanelController implements Initializable {
 
     @FXML
-    private Button inicio, limpiarCampos, buscarPorId;
+    private Button inicio, limpiarCampos, buscarPorId, buscarFiltrado, solicitar, modificar;
     @FXML
-    private ChoiceBox<String> tipoEntidad, campos, tipoModificacion, valorNuevo;
+    private ChoiceBox<String> tipoEntidad, campos, tipoModificacion, entidadModificable;
     @FXML
-    private TextField textFieldBusqueda, idEntidad, idAnimalTextField, idUsuarioTextField;
+    private TextField textFieldBusqueda, idEntidad, idAnimalTextField, idUsuarioTextField, valorNuevo;
     @FXML
     private VBox cardContainer;
+    @FXML
+    private Label respuestaSolicitud;
     private String[] tiposArray = {"Animal", "Usuario", "Solicitud de Adopción", "Todos"};
-    private String[] camposAnimalArray = {"Nombre", "Tipo", "Sexo", "Color", "Castrado", "Chip"};
+    private String[] camposAnimalArray = {"Nombre", "Tipo", "Sexo", "Color"};
     private String[] camposUsuarioArray = {"Nombre", "DNI", "Email"};
-    private String[] camposSolicitudAdopcionArray = {"Id animal", "Id adoptante", "Nombre del animal", "Nombre del usuario", "DNI adoptante"};
+    private String[] camposSolicitudAdopcionArray = {"Id animal", "Id adoptante"};
+    private String[] camposModificablesArray = {"Eliminar", "Nombre"};
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -63,6 +65,70 @@ public class PanelController implements Initializable {
             //cargamos las nuevas entidades
             cargarEntidades(entidades);
         });
+        //BÚSQUEDA POR TIPO, CAMPO Y VALOR
+        buscarFiltrado.setOnAction(e -> {
+            try{
+                ConexionBBDD conexionBBDD = new ConexionBBDD();
+                List<Entidad> entidades;
+                //consideramos el caso en el que el usuario desee ver todas las entidades
+                if(tipoEntidad.getValue().equals(tiposArray[3])){
+                    entidades = conexionBBDD.obtenerEntidadesDeBBDD();
+                }else{
+                    String tipo = tipoEntidad.getValue().toLowerCase();
+                    String campo = campos.getValue().toLowerCase();
+                    String valor = textFieldBusqueda.getText();
+                    //reajustamos en el caso de que sea una solicitud de adopcion
+                    if(tipoEntidad.getValue().equals(tiposArray[2])){
+                        tipo = "solicitudAdopcion";
+                        if(campos.getValue().equals(camposSolicitudAdopcionArray[0]))campo = "animal";
+                        if(campos.getValue().equals(camposSolicitudAdopcionArray[1]))campo = "adoptante";
+                    }
+                    //con los valores asignados, buscamos la entidad
+                    entidades = conexionBBDD.buscarEntidadesPorTablaYCampo(tipo, campo, valor);
+
+                }
+                //limpiamos de la anterior busqueda
+                cardContainer.getChildren().clear();
+                //mostramos la nueva busqueda
+                cargarEntidades(entidades);
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
+        });
+        solicitar.setOnAction(e -> {
+            try{
+                ConexionBBDD conexionBBDD = new ConexionBBDD();
+                conexionBBDD.insertarSolicitudAdopcion(new SolicitudAdopcion(ConexionBBDD.buscarAnimalPorId(idAnimalTextField.getText()),
+                        ConexionBBDD.buscarUsuarioPorId(idUsuarioTextField.getText())));
+                respuestaSolicitud.setText("Solicitud creada correctamente");
+            }catch (Exception ex){
+                respuestaSolicitud.setText("Error al insertar solicitud");
+                ex.printStackTrace();
+            }
+        });
+        modificar.setOnAction(e -> {
+            //si escogemos eliminar
+            if(tipoModificacion.getValue().equals(camposModificablesArray[0])){
+            try{
+                ConexionBBDD conexionBBDD = new ConexionBBDD();
+                conexionBBDD.eliminarPorId(entidadModificable.getValue());
+                respuestaSolicitud.setText("Entidad eliminada correctamente");
+            }catch (Exception ex){
+                respuestaSolicitud.setText("Error al eliminar la entidad");
+            }
+            //si escogemos modificar el nombre
+            } else if (tipoModificacion.getValue().equals(camposModificablesArray[1])) {
+                try{
+                    if (valorNuevo.getText().isEmpty())throw new RuntimeException("El nuevo valor no puede estar vacío");
+                    ConexionBBDD conexionBBDD = new ConexionBBDD();
+                    conexionBBDD.modificarPorId(entidadModificable.getValue(), valorNuevo.getText());
+                    respuestaSolicitud.setText("Entidad modificada correctamente");
+                }catch (Exception ex){
+                    respuestaSolicitud.setText("Error al modificar la entidad");
+                    ex.printStackTrace();
+                }
+            }
+        });
     }
 
     /**
@@ -72,6 +138,8 @@ public class PanelController implements Initializable {
      */
     private void cargarEntidades(List<Entidad> entidades){
         try{
+            //creamos un arraylist de ids para luego asignarlas al deplegable de entidades modificables
+            List<String> ids = new ArrayList<>();
             //iteramos la lista agregando las tarjetas
             for(Entidad entidad : entidades){
                 //cargamos la vista de la tarjeta
@@ -83,7 +151,11 @@ public class PanelController implements Initializable {
                 cardController.setData(entidad);
                 //agregamos la nueva tarjeta
                 cardContainer.getChildren().add(cardHBox);
+                //agregamos el id de la entidad al arraylist de ids
+                ids.add(entidad.getId());
             }
+            //una vez terminado, asignamos al choicebox de las entidades modificables aquellas que han salido en la búsqueda
+            actualizarEntidadesModificables(ids);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -120,14 +192,21 @@ public class PanelController implements Initializable {
         }catch (Exception e){
             e.printStackTrace();
         }
-        //configuramos el choice de los tipos y los campos
+        //configuramos el choice de los tipos
         tipoEntidad.getItems().addAll(tiposArray);
-        campos.getItems().addAll(camposAnimalArray);
         //ahora colocamos los valores del segundo choice, el de los campos, según el valor el choice tipos
         tipoEntidad.setOnAction(this::setCampos);
         //ahora modificamos el valor del prompt text del textFieldBuscador según la opción que seleccionemos en el choicebox
         //de los campos
         campos.setOnAction(this::setTextBusqueda);
+        //asignamos los campos modificables con el metodo cuando se escoja una entidad
+        entidadModificable.setOnAction(this::setTipoModificacion);
+        tipoModificacion.setOnAction(e -> {
+            modificar.setDisable(false);
+        });
+        tipoModificacion.setDisable(true);
+        valorNuevo.setDisable(true);
+        modificar.setDisable(true);
     }
     /**
      * Método que selecciona el contenido del choice según el tipo de entidad que seleccionemos
@@ -160,9 +239,23 @@ public class PanelController implements Initializable {
         }
     }
     private void setTextBusqueda(ActionEvent actionEvent) {
-        if(Objects.equals(campos.getValue(), camposAnimalArray[4])
-                || Objects.equals(campos.getValue(), camposAnimalArray[5])) textFieldBusqueda.setPromptText("si/no");
-        else textFieldBusqueda.setPromptText(campos.getValue());
+        textFieldBusqueda.setPromptText(campos.getValue());
+        textFieldBusqueda.clear();
+    }
+    private void setTipoModificacion(ActionEvent actionEvent) {
+        tipoModificacion.getItems().clear();
+        tipoModificacion.setDisable(false);
+        modificar.setDisable(true);
+        //si no es una solicitud de adopcion, se cargan las dos opciones
+        if(!String.valueOf(entidadModificable.getValue().charAt(0)).equals("s")){
+            tipoModificacion.getItems().addAll(camposModificablesArray);
+            valorNuevo.setDisable(false);
+        }else{
+            //si es una solicitud de adopcion, solo se da la opcion de eliminar
+            tipoModificacion.getItems().addAll(camposModificablesArray[0]);
+            valorNuevo.setDisable(true);
+        }
+
     }
     private void setLimpiarCampos(){
         idEntidad.clear();
@@ -172,6 +265,10 @@ public class PanelController implements Initializable {
         idAnimalTextField.clear();
         idUsuarioTextField.clear();
         tipoModificacion.setValue("");
-        valorNuevo.setValue("");
+        valorNuevo.clear();
+    }
+    private void actualizarEntidadesModificables(List<String> ids){
+        entidadModificable.getItems().clear();
+        entidadModificable.getItems().addAll(ids);
     }
 }
