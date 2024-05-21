@@ -25,6 +25,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Clase que se encarga de hacer la conexión con la base de datos y las diferentes operaciones con ésta
+ * @author Selene
+ * @version 1.0
+ */
 public class ConexionBBDD {
     private static String url, pwd, user;
     private static Connection connection;
@@ -34,9 +39,19 @@ public class ConexionBBDD {
         pwd = "";
         user = "root";
     }
+
+    /**
+     * Constructor que inicializa la conexión con la base de datos
+     * @throws SQLException Excepción que puede saltar si falla la conexión
+     */
     public ConexionBBDD() throws SQLException {
         connection = DriverManager.getConnection(url, user, pwd);
     }
+
+    /**
+     * Método que clasifica e inserta el animal pasado por parámetro en la base de datos
+     * @param animal el animal a insertar
+     */
     public void insertarAnimal(Animal animal){
         Gato gato=null;
         Perro perro=null;
@@ -78,6 +93,12 @@ public class ConexionBBDD {
             throw new RuntimeException("Error al insertar el animal");
         }
     }
+
+    /**
+     * Método que inserta un usuario en la base de datos
+     * @param usuario el usuario a insertar
+     * @throws SQLException excepción que puede generar al insertar el usuario
+     */
     public void insertarUsuario(Usuario usuario) throws SQLException{
         String query = "insert into usuario values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement statement = connection.prepareStatement(query);
@@ -94,6 +115,12 @@ public class ConexionBBDD {
         statement.setInt(11, usuario.getDireccion().getCodigoPostal());
         statement.executeUpdate();
     }
+
+    /**
+     * Método que inserta una solicitud de adopcion en la base de datos
+     * @param solicitud la solicitud de adopcion a insertar
+     * @throws SQLException la excepcion que puede generar al insertar la solicitud
+     */
     public void insertarSolicitudAdopcion(SolicitudAdopcion solicitud) throws SQLException{
         String query = "insert into solicitudAdopcion values (?, ?, ?)";
         PreparedStatement statement = connection.prepareStatement(query);
@@ -102,6 +129,11 @@ public class ConexionBBDD {
         statement.setString(3, solicitud.getAdoptante().getId());
         statement.executeUpdate();
     }
+
+    /**
+     * Método que cuenta los animales en la base de datos
+     * @return el nº de animales existentes en la base de datos
+     */
     public int contarAnimales(){
         int resultado=0;
         try{
@@ -116,6 +148,11 @@ public class ConexionBBDD {
         }
         return resultado;
     }
+
+    /**
+     * Método que cuenta los usuarios en la base de datos
+     * @return el nº de usuarios existentes en la base de datos
+     */
     public int contarUsuarios(){
         int resultado=0;
         try{
@@ -130,6 +167,11 @@ public class ConexionBBDD {
         }
         return resultado;
     }
+
+    /**
+     * Método que cuenta las solicitudes de adopción en la base de datos
+     * @return el numero de solicitudes en la base de datos
+     */
     public int contarsolicitudes(){
         int resultado=0;
         try{
@@ -144,6 +186,12 @@ public class ConexionBBDD {
         }
         return resultado;
     }
+
+    /**
+     * Método que obtiene de la base de datos una lista de entidades conformada por los usuarios, los animales y las solicitudes
+     * de adopcion
+     * @return una lista con las entidades contenidas en la base de datos
+     */
     public List<Entidad> obtenerEntidadesDeBBDD(){
         List<Entidad> entidades = new ArrayList<>();
         //querys para tomar los animales, los usuarios y las solicitudes de adopción
@@ -169,6 +217,12 @@ public class ConexionBBDD {
         }
         return entidades;
     }
+
+    /**
+     * Metodo que obtiene de la tabla animal de la base de datos el animal que coincide con el id insertado
+     * @param idAnimal el id del animal a buscar
+     * @return el animal solicitado. Puede ser null si no lo encuentra
+     */
     public static Animal buscarAnimalPorId(String idAnimal){
         Animal animal = null;
         try{
@@ -207,6 +261,11 @@ public class ConexionBBDD {
         }
         return animal;
     }
+    /**
+     * Metodo que obtiene de la tabla usuario de la base de datos el usuario que coincide con el id insertado
+     * @param id el id del usuario a buscar
+     * @return el usuario solicitado. Puede ser null si no lo encuentra
+     */
     public static Usuario buscarUsuarioPorId(String id){
         Usuario usuario = null;
         try{
@@ -228,6 +287,11 @@ public class ConexionBBDD {
         }
         return usuario;
     }
+    /**
+     * Metodo que obtiene de la tabla solicitudAdopcion de la base de datos la solicitud que coincide con el id insertado
+     * @param id el id de la solicitud a buscar
+     * @return la solicitud solicitada. Puede ser null si no lo encuentra
+     */
     public static SolicitudAdopcion buscarSolicitudPorId(String id){
         SolicitudAdopcion solicitud = null;
         try{
@@ -245,6 +309,12 @@ public class ConexionBBDD {
         }
         return solicitud;
     }
+
+    /**
+     * Método que elimina una entidad de la tabla según el id que le entre
+     * @param id el id de la entidad a eliminar
+     * @throws SQLException excepcion que puede generar en la eliminacion
+     */
     public void eliminarPorId(String id) throws SQLException{
         String tabla = null, comprobacion = String.valueOf(id.charAt(0));
         switch (comprobacion){
@@ -263,6 +333,13 @@ public class ConexionBBDD {
         ps.setString(1, id);
         ps.executeUpdate();
     }
+
+    /**
+     * Metodo que modifica una entidad segun el id que le entre
+     * @param id el id del campo a modificar
+     * @param nuevoValor el nuevo valor del campo
+     * @throws SQLException excepcion que puede generar en la modificacion
+     */
     public void modificarPorId(String id, String nuevoValor) throws SQLException{
         String tabla = null, comprobacion = String.valueOf(id.charAt(0));
         switch (comprobacion){
@@ -281,6 +358,12 @@ public class ConexionBBDD {
         ps.setString(1, id);
         ps.executeUpdate();
     }
+
+    /**
+     * Metodo que recibe el path de una imagen y que la convierte en una array de bytes
+     * @param path el path de la imagen
+     * @return un array de bytes que representa la imagen
+     */
     public static byte[] convertImgToBytes(Path path){
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
              FileInputStream fileInputStream = new FileInputStream(path.toFile())) {
@@ -295,6 +378,12 @@ public class ConexionBBDD {
             return null;
         }
     }
+
+    /**
+     * Metodo que convierte un array de bytes en una imagen y la guarda dentro del proyecto
+     * @param bytes el array de bytes que recoge toda la información de la imagen
+     * @param nombreImg el nuevo nombre de la imagen
+     */
     public void convertBytesToImg(byte[] bytes, String nombreImg){
         //Se crea un ByteArrayInputStream a partir del array de bytes. Este stream permite leer los bytes de la imagen.
         //Luego se crea un ImageInputStream a partir del ByteArrayInputStream. Este stream es necesario para que el
@@ -329,6 +418,14 @@ public class ConexionBBDD {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Metodo que busca en la base de datos en la tabla y campo que le digamos el valor que le digamos
+     * @param tabla la tabla insertada por parametro donde buscar
+     * @param campo el campo que buscar
+     * @param valor el valor del campo a buscar
+     * @return la entidad que coincida con los valores introducidos
+     */
     public List<Entidad> buscarEntidadesPorTablaYCampo(String tabla, String campo, String valor){
         List<Entidad> entidades = new ArrayList<>();
         try{
@@ -344,6 +441,14 @@ public class ConexionBBDD {
         }
         return entidades;
     }
+
+    /**
+     * Metodo que extrae una lista de animales segun el resultado de una consulta ya realizada que entra por parametro
+     * como objeto tipo ResultSet
+     * @param rs el objeto tipo resultset
+     * @return una lista de entidades obtenida de la consulta que entra por parametro
+     * @throws SQLException excepcion que puede generar al extraer los datos de la consulta
+     */
     private List<Entidad> createAnimalFromSelect(ResultSet rs) throws SQLException {
         List<Entidad> entidades = new ArrayList<>();
         while(rs.next()){
@@ -378,6 +483,14 @@ public class ConexionBBDD {
         }
         return entidades;
     }
+
+    /**
+     * Metodo que extrae una lista de usuarios segun el resultado de una consulta ya realizada que entra por parametro
+     * como objeto tipo ResultSet
+     * @param rs el objeto tipo resultset
+     * @return una lista de entidades obtenida de la consulta que entra por parametro
+     * @throws SQLException excepcion que puede generar al extraer los datos de la consulta
+     */
     private List<Entidad> createUserFromSelect(ResultSet rs) throws SQLException {
         List<Entidad> entidades = new ArrayList<>();
         while (rs.next()){
@@ -392,13 +505,20 @@ public class ConexionBBDD {
         }
         return entidades;
     }
-    private List<Entidad> createAdoptionApplicationFromSelect(ResultSet resultSetTres) throws SQLException {
+    /**
+     * Metodo que extrae una lista de solicitudes segun el resultado de una consulta ya realizada que entra por parametro
+     * como objeto tipo ResultSet
+     * @param rs el objeto tipo resultset
+     * @return una lista de entidades obtenida de la consulta que entra por parametro
+     * @throws SQLException excepcion que puede generar al extraer los datos de la consulta
+     */
+    private List<Entidad> createAdoptionApplicationFromSelect(ResultSet rs) throws SQLException {
         List<Entidad> entidades = new ArrayList<>();
-        while(resultSetTres.next()){
+        while(rs.next()){
             entidades.add(
-                    new SolicitudAdopcion(resultSetTres.getString("id"),
-                            buscarAnimalPorId(resultSetTres.getString("animal")),
-                            buscarUsuarioPorId(resultSetTres.getString("adoptante")))
+                    new SolicitudAdopcion(rs.getString("id"),
+                            buscarAnimalPorId(rs.getString("animal")),
+                            buscarUsuarioPorId(rs.getString("adoptante")))
             );
         }
         return entidades;
