@@ -21,6 +21,10 @@ SET time_zone = "+00:00";
 -- Base de datos: `protectora`
 --
 
+drop database if exists protectora;
+create database protectora;
+use protectora;
+
 -- --------------------------------------------------------
 
 --
